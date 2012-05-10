@@ -1,7 +1,11 @@
 package org.emmef.cheapsets.util;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 import org.emmef.cheapsets.IndexedUniverse;
@@ -59,6 +63,39 @@ public class IndexedUniverseHelper {
 				}
 			}
 		}
+		return true;
+	}
+	
+	public static <T extends Comparable<T>> boolean isStrictMonotonicallyIncreasing(T[] elements) {
+		checkNotNull(elements, "elements");
+		checkArgument(elements.length != 0, "Need at least 1 element");
+		T previous = checkNotNull(elements[0], "elements must not be null");
+		for (int i = 1; i < elements.length; i++) {
+			T current = checkNotNull(elements[i], "elements most not be null");
+
+			if (previous.compareTo(current) >= 0) {
+				return false;
+			}
+			previous = current;
+		}
+		
+		return true;
+	}
+	
+	public static <T> boolean isStrictMonotonicallyIncreasing(T[] elements, Comparator<? super T> comparator) {
+		checkNotNull(elements, "elements");
+		checkNotNull(comparator, "comparator");
+		checkArgument(elements.length != 0, "Need at least 1 element");
+		T previous = checkNotNull(elements[0], "elements must not be null");
+		for (int i = 1; i < elements.length; i++) {
+			T current = checkNotNull(elements[i], "elements most not be null");
+
+			if (comparator.compare(previous, current) >= 0) {
+				return false;
+			}
+			previous = current;
+		}
+		
 		return true;
 	}
 
