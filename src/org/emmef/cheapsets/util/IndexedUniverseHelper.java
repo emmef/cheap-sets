@@ -99,4 +99,8 @@ public class IndexedUniverseHelper {
 		return true;
 	}
 
+	public static <T> T checkElementNotNull(T element) {
+		return checkNotNull(element, IndexedUniverse.class.getSimpleName() + " cannot contain null elements");
+	}
+
 }
