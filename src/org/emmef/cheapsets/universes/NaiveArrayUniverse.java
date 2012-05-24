@@ -7,7 +7,7 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
 
-public class NaiveArrayUniverse<T> extends AbstractIndexedUniverse<T> {
+public class NaiveArrayUniverse<T> extends AbstractIndexedSubset<T> {
 	private final List<T> universe;
 
 	public NaiveArrayUniverse(Set<T> universe) {

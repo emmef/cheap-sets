@@ -3,17 +3,17 @@ package org.emmef.cheapsets.util;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.emmef.cheapsets.universes.AbstractIndexedUniverse;
+import org.emmef.cheapsets.universes.AbstractIndexedSubset;
 
 public final class DefaultIndexedUniverseIterator<T> implements Iterator<T> {
-	private final AbstractIndexedUniverse<T> universe;
+	private final AbstractIndexedSubset<T> universe;
 	private T next = null;
 	private int position = 0;
 
 	/**
 	 * @param abstractIndexedUniverse
 	 */
-	public DefaultIndexedUniverseIterator(AbstractIndexedUniverse<T> abstractIndexedUniverse) {
+	public DefaultIndexedUniverseIterator(AbstractIndexedSubset<T> abstractIndexedUniverse) {
 		universe = abstractIndexedUniverse;
 	}
 

@@ -1,16 +1,16 @@
 package org.emmef.cheapsets;
 
-class SmallIndexSet implements IndexSet<SmallIndexSet> {
-	private long present;
+class MiniIndexSet implements IndexSet<MiniIndexSet> {
+	private int present;
 
-	private SmallIndexSet(long present) {
+	private MiniIndexSet(int present) {
 		this.present = present;
 	}
-	
-	SmallIndexSet() {
+
+	MiniIndexSet() {
 		this(0);
 	}
-
+	
 	@Override
 	public int count() {
 		return Long.bitCount(present);
@@ -41,26 +41,26 @@ class SmallIndexSet implements IndexSet<SmallIndexSet> {
 	}
 
 	@Override
-	public boolean containsAll(SmallIndexSet set) {
+	public boolean containsAll(MiniIndexSet set) {
 		return (set.present & present) == set.present;
 	}
 
 	@Override
-	public boolean addAll(SmallIndexSet set) {
+	public boolean addAll(MiniIndexSet set) {
 		long old = present;
 		present |= set.present;
 		return old != present;
 	}
 
 	@Override
-	public boolean retainAll(SmallIndexSet set) {
+	public boolean retainAll(MiniIndexSet set) {
 		long old = present;
 		present &= set.present;
 		return old != present;
 	}
 
 	@Override
-	public boolean removeAll(SmallIndexSet set) {
+	public boolean removeAll(MiniIndexSet set) {
 		long old = present;
 		present &= -1L ^ set.present;
 		return old != present;
@@ -72,13 +72,13 @@ class SmallIndexSet implements IndexSet<SmallIndexSet> {
 	}
 
 	@Override
-	public SmallIndexSet cloneEmpty() {
-		return new SmallIndexSet(0);
+	public MiniIndexSet cloneEmpty() {
+		return new MiniIndexSet(0);
 	}
 	
 	@Override
-	public SmallIndexSet clone() {
-		return new SmallIndexSet(present);
+	public MiniIndexSet clone() {
+		return new MiniIndexSet(present);
 	}
 
 }

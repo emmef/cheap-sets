@@ -2,13 +2,13 @@ package org.emmef.cheapsets.hash;
 
 import org.emmef.cheapsets.IndexFunction;
 import org.emmef.cheapsets.universes.HashIndexedFunction;
-import org.emmef.cheapsets.universes.HashedArrayIndexedUniverse;
+import org.emmef.cheapsets.universes.HashedArrayIndexedSubset;
 
 import com.google.common.collect.ImmutableList;
 
 /**
  * Returns hash codes for elements. A hash function is used by the 
- * {@link HashedArrayIndexedUniverse} to index its elements.
+ * {@link HashedArrayIndexedSubset} to index its elements.
  */
 public interface HashFunction {
 

@@ -2,7 +2,7 @@ package org.emmef.cheapsets.universes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class SingleElementIndexedUniverse<T> extends AbstractIndexedUniverse<T> {
+public class SingleElementIndexedUniverse<T> extends AbstractIndexedSubset<T> {
 	Object element;
 
 	public SingleElementIndexedUniverse(Object element) {

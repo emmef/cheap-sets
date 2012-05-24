@@ -8,10 +8,10 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-import org.emmef.cheapsets.IndexedUniverse;
+import org.emmef.cheapsets.IndexedSubset;
 
 public class IndexedUniverseHelper {
-	public static Object[] toArray(IndexedUniverse<?> universe) {
+	public static Object[] toArray(IndexedSubset<?> universe) {
 		int size = universe.size();
 		Object[] result = new Object[size];
 		int indexSize = universe.size();
@@ -28,7 +28,7 @@ public class IndexedUniverseHelper {
 		throw new IllegalStateException("universe.size() does not correspond to the actual number of elements");
 	}
 
-	public static <T> T[] toArray(IndexedUniverse<? extends T> universe, T[] a) {
+	public static <T> T[] toArray(IndexedSubset<? extends T> universe, T[] a) {
 		int size = universe.size();
 		@SuppressWarnings("unchecked")
 		T[] result = (T[])Array.newInstance(a.getClass().getComponentType(), size);
@@ -46,7 +46,7 @@ public class IndexedUniverseHelper {
 		throw new IllegalStateException("universe.size() does not correspond to the actual number of elements");
 	}
 	
-	public static boolean containsAll(IndexedUniverse<?> universe, Collection<?> collection) {
+	public static boolean containsAll(IndexedSubset<?> universe, Collection<?> collection) {
 		if (collection instanceof List) {
 			List<?> list = (List<?>)collection;
 			int size = collection.size();
@@ -100,7 +100,7 @@ public class IndexedUniverseHelper {
 	}
 
 	public static <T> T checkElementNotNull(T element) {
-		return checkNotNull(element, IndexedUniverse.class.getSimpleName() + " cannot contain null elements");
+		return checkNotNull(element, IndexedSubset.class.getSimpleName() + " cannot contain null elements");
 	}
 
 }

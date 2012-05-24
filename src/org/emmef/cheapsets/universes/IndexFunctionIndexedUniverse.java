@@ -5,7 +5,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.emmef.cheapsets.IndexFunction;
 
-public class IndexFunctionIndexedUniverse<T> extends AbstractIndexedUniverse<T> {
+public class IndexFunctionIndexedUniverse<T> extends AbstractIndexedSubset<T> {
 
 	private final Object[] elements;
 	private final IndexFunction function;
