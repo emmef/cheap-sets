@@ -12,5 +12,5 @@ public interface IndexFunction {
 	 * returns the size of the index.
 	 * @return a positive integer
 	 */
-	int size();
+	int indexSize();
 }

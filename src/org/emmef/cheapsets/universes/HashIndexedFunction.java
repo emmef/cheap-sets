@@ -28,7 +28,7 @@ public final class HashIndexedFunction implements IndexFunction {
 	}
 	
 	@Override
-	public int size() {
+	public int indexSize() {
 		return size;
 	}
 }

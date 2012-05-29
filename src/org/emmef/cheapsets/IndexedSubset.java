@@ -29,7 +29,7 @@ import java.util.Set;
  *       
  * @param <T> type of elements in the subset
  */
-public interface IndexedSubset<T> extends Set<T> {
+public interface IndexedSubset<T> extends Set<T>, IndexFunction {
 	/**
 	 * Retrieves the index of the element if it is contained, {@code -1} otherwise.
 	 * <p>

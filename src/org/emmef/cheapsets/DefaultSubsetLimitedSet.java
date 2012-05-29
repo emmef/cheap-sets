@@ -104,7 +104,16 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 	@Override
 	public <T> T[] toArray(T[] a) {
 		int size = indexSet.count();
-		T[] result = (T[])Array.newInstance(a.getClass().getComponentType(), size);
+		T[] result;
+		if (a.length < size) {
+			result = (T[])Array.newInstance(a.getClass().getComponentType(), size);
+		}
+		else {
+			result = a;
+			if (a.length > size) {
+				result[size] = null;
+			}
+		}
 		int indexSize = universe.indexSize();
 		int idx = 0;
 		for (int i = 0; i < indexSize; i++) {
@@ -112,9 +121,11 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 				result[idx++] = (T)universe.elementAt(i);
 			}
 		}
+		
 		if (idx == size) {
 			return result;
 		}
+		
 		throw new IllegalStateException("universe.size() does not correspond to the actual number of elements");
 	}
 

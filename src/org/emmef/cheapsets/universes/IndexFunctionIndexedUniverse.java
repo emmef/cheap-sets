@@ -14,7 +14,7 @@ public class IndexFunctionIndexedUniverse<T> extends AbstractIndexedSubset<T> {
 	protected IndexFunctionIndexedUniverse(Object[] elements, IndexFunction function, int size) {
 		checkNotNull(elements, "elements");
 		checkNotNull(function, "function");
-		checkArgument(elements.length == function.size(), "Array with elements must be equal to index size");
+		checkArgument(elements.length == function.indexSize(), "Array with elements must be equal to index size");
 		checkArgument(size <= elements.length, "Number of elements must be smaller than or equal to index size");
 		this.elements = elements;
 		this.function = function;
@@ -32,7 +32,7 @@ public class IndexFunctionIndexedUniverse<T> extends AbstractIndexedSubset<T> {
 
 	@Override
 	public int indexSize() {
-		return function.size();
+		return function.indexSize();
 	}
 
 	@SuppressWarnings("unchecked")
