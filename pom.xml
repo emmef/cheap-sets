@@ -7,10 +7,15 @@
   <description>Cheap sets and maps where the POSSIBLE set of contained
   values is limited to an immutable universe.</description>
   <dependencies>
-  	<dependency>
+	<dependency>
   		<groupId>com.google.guava</groupId>
   		<artifactId>guava-collections</artifactId>
   		<version>r03</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.google.guava</groupId>
+  		<artifactId>guava-tests</artifactId>
+  		<version>12.0</version>
   	</dependency>
   	<dependency>
   		<groupId>junit</groupId>
