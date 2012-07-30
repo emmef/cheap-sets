@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet<E> {
 	private final IndexedSubset<E> universe;
@@ -50,12 +51,10 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 					E element = universe.elementAt(position);
 					if (element != null && indexSet.presentAt(position)) {
 						next = element;
-						deletePosition = -1;
 						return true;
 					}
 					position++;
 				}
-				deletePosition = -1;
 				return false;
 			}
 
@@ -78,7 +77,6 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 				}
 				indexSet.removeAt(deletePosition);
 				deletePosition = -1;
-				throw new UnsupportedOperationException();
 			}
 		};
 	}
@@ -251,6 +249,62 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 	public DefaultSubsetLimitedSet<E, S> cloneEmpty() {
 		return new DefaultSubsetLimitedSet<E, S>(universe, indexSet.cloneEmpty());
 	}
+	
+	public int hashCode() {
+		int hash = 0;
+		int indexSize = universe.indexSize();
+		for (int i = 0; i < indexSize; i++) {
+			if (indexSet.presentAt(i)) {
+				hash += universe.elementAt(i).hashCode();
+			}
+		}
+
+		return hash;
+	};
+	
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof Set)) {
+			return false;
+		}
+		
+		Set<?> set = (Set<?>)(o);
+		
+		if (size() != set.size()) {
+			return false;
+		}
+		
+		return containsAll(set) && set.containsAll(this);
+	};
+	
+	public String toString() {
+		if (isEmpty()) {
+			return "[]";
+		}
+		
+		StringBuilder string = new StringBuilder();
+		int indexSize = universe.indexSize();
+		
+		boolean first = true;
+		for (int i = 0; i < indexSize; i++) {
+			if (indexSet.presentAt(i)) {
+				if (first) {
+					first = false;
+					string.append('[');
+				}
+				else {
+					string.append(',');
+				}
+				
+				string.append(universe.elementAt(i));
+			}
+		}
+		string.append(']');
+		
+		return string.toString();
+	};
 	
 	IndexedSubset<E> getUniverse() {
 		return universe;
