@@ -68,7 +68,6 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 		if (value == null) {
 			return false;
 		}
-		
 		for (int i = 0; i < values.length; i++) {
 			if (value.equals(values[i])) {
 				return true;
@@ -115,7 +114,7 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 		if (key == null) {
 			return null;
 		}
-		
+
 		int indexOf = subset.indexOf(key);
 		
 		if (indexOf >= 0) {
@@ -193,6 +192,33 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 		}
 		
 		return entrySet().equals(((Map<?,?>)obj).entrySet()); 
+	}
+	
+	@Override
+	public String toString() {
+		if (isEmpty()) {
+			return "[]";
+		}
+		StringBuilder text = new StringBuilder();
+		text.append('[');
+		int indexSize = subset.indexSize();
+		boolean first = true;
+		for (int i = 0; i < indexSize; i++) {
+			Object value = values[i];
+			if (value != null) {
+				if (first) {
+					first = false;
+				}
+				else {
+					text.append(',');
+				}
+				text.append(subset.elementAt(i));
+				text.append('=');
+				text.append(value);
+			}
+		}
+		text.append(']');
+		return text.toString();
 	}
 	
 	@Override

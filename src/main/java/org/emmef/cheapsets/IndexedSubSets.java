@@ -29,6 +29,12 @@ public class IndexedSubSets {
 			Stats.addIdempotentBased();
 			return ((DefaultSubsetLimitedSet<E,?>) set).getUniverse();
 		}
+		
+		if (set.size() < naiveThreshold) {
+			Stats.addNaive();
+			return new NaiveArrayUniverse<E>(set);
+		}
+		
 		if (hashFunctions != null && !hashFunctions.isEmpty()) {
 			IndexedSubset<E> hashedSet = HashedArrayIndexedSubset.createFrom(set, 4, hashFunctions);
 			if (hashedSet != null) {
@@ -37,11 +43,6 @@ public class IndexedSubSets {
 			}
 		}
 		
-		if (set.size() < naiveThreshold) {
-			Stats.addNaive();
-			return new NaiveArrayUniverse<E>(set);
-		}
-
 		Stats.addMapBased();
 		return new MapBasedIndexedSubset<E>(set);
 	}

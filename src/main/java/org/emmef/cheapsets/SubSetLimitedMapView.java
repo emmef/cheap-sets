@@ -109,16 +109,11 @@ abstract class SubSetLimitedMapView<K, V, T, U extends SubSetLimitedMapView<K, V
 		int idx = 0;
 		int indexSize = map.getSubset().indexSize();
 		
-		try {
-			for (int i = 0; i < indexSize; i++) {
-				W element = (W)elementAt(i);
-				if (element != null) {
-					result[idx++] = element;
-				}
+		for (int i = 0; i < indexSize; i++) {
+			W element = (W)elementAt(i);
+			if (element != null) {
+				result[idx++] = element;
 			}
-		}
-		catch (ArrayStoreException e) {
-			throw e;
 		}
 		
 		if (idx == size) {
@@ -163,7 +158,7 @@ abstract class SubSetLimitedMapView<K, V, T, U extends SubSetLimitedMapView<K, V
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		return modifyFrom(c, Modification.REMOVE);
+		return modifyFrom(c, Modification.RETAIN);
 	}
 
 	@Override

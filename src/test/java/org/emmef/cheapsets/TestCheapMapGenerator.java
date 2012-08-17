@@ -1,5 +1,6 @@
 package org.emmef.cheapsets;
 
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -46,9 +47,10 @@ public final class TestCheapMapGenerator implements TestMapGenerator<String, Str
 	
 	
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Entry<String, String>[] createArray(int length) {
-		return new StringString[length];
+		return (Entry<String, String>[])Array.newInstance(Map.Entry.class, length);
 	}
 
 
@@ -93,19 +95,25 @@ public final class TestCheapMapGenerator implements TestMapGenerator<String, Str
 		Entry<String, String> entries[] = new StringString[5];
 		
 		Set<String> hadKeys = Sets.newHashSet();
+		Set<String> hadValues = Sets.newHashSet();
 		
 		for (int i = 0; i < 5; i++) {
-			String newKey = getRandomElementFrom(UNIVERSE_LIST);
-			while (hadKeys.contains(newKey)) {
-				newKey = getRandomElementFrom(UNIVERSE_LIST);
-			}
-			hadKeys.add(newKey);
-			entries[i] = new StringString(newKey, getRandomElementFrom(VALUES_LIST));
+			entries[i] = new StringString(getUnusedFrom(UNIVERSE_LIST, hadKeys), getUnusedFrom(VALUES_LIST, hadValues));
 		}
 		
 		SampleElements<Entry<String, String>> sampleElements = new SampleElements<Entry<String,String>>(entries[0], entries[1], entries[2], entries[3], entries[4]);
 		
 		return sampleElements;
+	}
+
+	private static String getUnusedFrom(List<String> universe,
+			Set<String> previousValues) {
+		String value = getRandomElementFrom(universe);
+		while (previousValues.contains(value)) {
+			value = getRandomElementFrom(universe);
+		}
+		previousValues.add(value);
+		return value;
 	}
 
 	private static String getRandomElementFrom(List<String> list) {
