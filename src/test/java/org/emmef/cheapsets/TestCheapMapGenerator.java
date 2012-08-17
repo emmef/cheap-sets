@@ -24,6 +24,7 @@ public final class TestCheapMapGenerator implements TestMapGenerator<String, Str
 			MapFeature.SUPPORTS_REMOVE,
 			MapFeature.SUPPORTS_PUT,
 			MapFeature.SUPPORTS_PUT_ALL,
+			MapFeature.RESTRICTS_KEYS,
 			CollectionFeature.ALLOWS_NULL_QUERIES,
 			CollectionFeature.REMOVE_OPERATIONS, 
 			CollectionFeature.SUPPORTS_ADD, 
