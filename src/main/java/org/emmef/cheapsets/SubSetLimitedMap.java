@@ -89,7 +89,8 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 	 * the used subset ({@link IndexedSubset}).
 	 * 
 	 * @see Map
-	 * @throws IllegalArgumentException if either key or value are {@code null}.
+	 * @throws NullPointerException if either key or value are {@code null}
+	 * @throws IllegalArgumentException if key is not contained in the subset
 	 */
 	@Override
 	public V put(K key, V value) {
@@ -105,8 +106,7 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 			V existing = setAt(indexOf, value);
 			return existing;
 		}
-		
-		throw new IllegalArgumentException(getClass().getSimpleName() + ": key not backed by the subset that this maps key values are limited to: " + key);
+		throw new IllegalArgumentException(getClass().getSimpleName() + ": key not backed by subset that this maps key values are limited to: " + key);
 	}
 
 	@Override
