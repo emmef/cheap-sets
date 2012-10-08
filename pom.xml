@@ -17,14 +17,15 @@
 					<target>1.7</target>
 					<encoding>utf-8</encoding>
 				</configuration>
+ 	          <version>2.5.1</version>
 			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
 			<groupId>com.google.guava</groupId>
-			<artifactId>guava-collections</artifactId>
-			<version>r03</version>
+			<artifactId>guava</artifactId>
+			<version>13.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -36,7 +37,7 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava-testlib</artifactId>
 			<scope>test</scope>
-			<version>12.0</version>
+			<version>13.0.1</version>
 		</dependency>
 	</dependencies>
 </project>
