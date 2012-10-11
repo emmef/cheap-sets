@@ -17,7 +17,7 @@
 					<target>1.7</target>
 					<encoding>utf-8</encoding>
 				</configuration>
- 	          <version>2.5.1</version>
+				<version>2.5.1</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -38,6 +38,18 @@
 			<artifactId>guava-testlib</artifactId>
 			<scope>test</scope>
 			<version>13.0.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>truth</artifactId>
+					<groupId>org.junit.contrib</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.truth0</groupId>
+			<artifactId>truth</artifactId>
+			<version>0.10</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

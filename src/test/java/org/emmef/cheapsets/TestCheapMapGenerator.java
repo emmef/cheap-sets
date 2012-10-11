@@ -20,15 +20,12 @@ import com.google.common.collect.testing.features.MapFeature;
 public final class TestCheapMapGenerator implements TestMapGenerator<String, String>, TestFeatures {
 	private static final ImmutableList<Feature<?>> FEATURES = ImmutableList.<Feature<?>>of(
 			MapFeature.ALLOWS_NULL_QUERIES,
-			MapFeature.SUPPORTS_CLEAR,
 			MapFeature.SUPPORTS_REMOVE,
 			MapFeature.SUPPORTS_PUT,
-			MapFeature.SUPPORTS_PUT_ALL,
 			MapFeature.RESTRICTS_KEYS,
 			CollectionFeature.ALLOWS_NULL_QUERIES,
 			CollectionFeature.REMOVE_OPERATIONS, 
 			CollectionFeature.SUPPORTS_ADD, 
-			CollectionFeature.SUPPORTS_ADD_ALL, 
 			CollectionSize.ANY);
 			
 	private static final Set<String> UNIVERSE = ImmutableSet.of("Aap", "Noot", "Mies", "Wim", "Zus", "Jet", "Diederik", "Knoopsgat", "Volledig", "Knip");

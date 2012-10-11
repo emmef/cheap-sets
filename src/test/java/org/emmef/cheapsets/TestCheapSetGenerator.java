@@ -16,11 +16,7 @@ public final class TestCheapSetGenerator implements TestSetGenerator<String>, Te
 	private static final ImmutableList<Feature<?>> FEATURES = ImmutableList.<Feature<?>>of(
 			CollectionFeature.ALLOWS_NULL_QUERIES, 
 			CollectionFeature.SUPPORTS_ADD, 
-			CollectionFeature.SUPPORTS_ADD_ALL, 
-			CollectionFeature.SUPPORTS_CLEAR, 
 			CollectionFeature.SUPPORTS_REMOVE, 
-			CollectionFeature.SUPPORTS_REMOVE_ALL, 
-			CollectionFeature.SUPPORTS_RETAIN_ALL,
 			CollectionSize.ANY);
 			
 	private static final Set<String> UNIVERSE = ImmutableSet.of("Aap", "Noot", "Mies", "Wim", "Zus", "Jet", "Diederik", "Knoopsgat", "Volledig", "Knip");

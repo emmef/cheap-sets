@@ -79,4 +79,6 @@ public abstract class SubsetLimitedSet<E> implements Set<E>, Cloneable {
 			return new DefaultSubsetLimitedSet<E, SmallIndexSet>(subset, new SmallIndexSet());
 		}
 	}
+	
+	public abstract IndexedSubset<E> subSet();
 }

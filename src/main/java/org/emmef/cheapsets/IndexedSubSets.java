@@ -27,7 +27,7 @@ public class IndexedSubSets {
 		}
 		if (set instanceof DefaultSubsetLimitedSet) {
 			Stats.addIdempotentBased();
-			return ((DefaultSubsetLimitedSet<E,?>) set).getUniverse();
+			return ((DefaultSubsetLimitedSet<E,?>) set).subSet();
 		}
 		
 		if (set.size() < naiveThreshold) {

@@ -306,7 +306,8 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 		return string.toString();
 	};
 	
-	IndexedSubset<E> getUniverse() {
+	@Override
+	public final IndexedSubset<E> subSet() {
 		return universe;
 	}
 	

@@ -29,6 +29,19 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 		this.size = 0;
 	}
 	
+	/**
+	 * Creates an empty map, based on the same sub set as the provided set.
+	 * 
+	 * @param set set to use the indexed sub set from
+	 * @return an empty map 
+	 * @see IndexedSubset
+	 */
+	public static <K, V> SubSetLimitedMap<K, V> basedOn(SubsetLimitedSet<K> set) {
+		checkNotNull(set, "set");
+		
+		return new SubSetLimitedMap<>(set.subSet());
+	}
+	
 	public SubSetLimitedMap(Map<K, V> map) {
 		checkNotNull(map, "map");
 		
