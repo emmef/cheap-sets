@@ -8,6 +8,7 @@ import org.emmef.cheapsets.hash.HashFunction;
 import org.emmef.cheapsets.universes.HashedArrayIndexedSubset;
 import org.emmef.cheapsets.universes.MapBasedIndexedSubset;
 import org.emmef.cheapsets.universes.NaiveArrayUniverse;
+import org.emmef.cheapsets.universes.OrderedIndexedSubSet;
 
 import com.google.common.collect.ImmutableList;
 
@@ -46,12 +47,17 @@ public class IndexedSubSets {
 		Stats.addMapBased();
 		return new MapBasedIndexedSubset<E>(set);
 	}
+	
 	public static <E> IndexedSubset<E> createSubset(Set<E> universe) {
 		return createSubset(universe, HashFunction.DEFAULT_SAFE_HASHES, DEFAULT_NAIVE_THRESHOLD);
 	}
 	
 	public static <E> IndexedSubset<E> createSubsetNoHashes(Set<E> universe) {
 		return createSubset(universe, ImmutableList.<HashFunction>of(), DEFAULT_NAIVE_THRESHOLD);
+	}
+	
+	public static <E extends Comparable<E>> IndexedSubset<E> createOrderedSubSet(Set<E> universe) {
+		return new OrderedIndexedSubSet<>(universe);
 	}
 
 	public static class Stats {
