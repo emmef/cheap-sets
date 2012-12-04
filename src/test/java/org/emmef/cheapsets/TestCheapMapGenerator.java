@@ -1,5 +1,7 @@
 package org.emmef.cheapsets;
 
+import static com.google.common.base.Preconditions.*;
+
 import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Map;
@@ -34,16 +36,18 @@ public final class TestCheapMapGenerator implements TestMapGenerator<String, Str
 	private static final List<String> UNIVERSE_LIST = ImmutableList.copyOf(UNIVERSE);
 	private static final List<String> VALUES_LIST = ImmutableList.copyOf(VALUES);
 	
-	private static final IndexedSubset<String> SUBSET = IndexedSubSets.createSubset(UNIVERSE);
-	
 	private static final SampleElements<Entry<String, String>> SAMPLE_ELEMENTS = createSampleElements();
+
+	private final IndexType indexType;
 	
 	@Override
 	public SampleElements<Entry<String, String>> samples() {
 		return SAMPLE_ELEMENTS;
 	}
 	
-	
+	public TestCheapMapGenerator(IndexType indexType) {
+		this.indexType = checkNotNull(indexType, "indexType");
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -54,7 +58,7 @@ public final class TestCheapMapGenerator implements TestMapGenerator<String, Str
 
 	@Override
 	public Map<String, String> create(Object... elements) {
-		SubSetLimitedMap<String, String> created = new SubSetLimitedMap<String,String>(SUBSET);
+		SubSetLimitedMap<String, String> created = new SubSetLimitedMap<String,String>(indexType.create(UNIVERSE));
 		for (Object element : elements) {
 			@SuppressWarnings("unchecked")
 			Entry<String,String> entry = (Entry<String,String>)element;

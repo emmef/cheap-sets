@@ -1,5 +1,7 @@
 package org.emmef.cheapsets;
 
+import static com.google.common.base.Preconditions.*;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +23,11 @@ public final class TestCheapSetGenerator implements TestSetGenerator<String>, Te
 			
 	private static final Set<String> UNIVERSE = ImmutableSet.of("Aap", "Noot", "Mies", "Wim", "Zus", "Jet", "Diederik", "Knoopsgat", "Volledig", "Knip");
 	
-	private static final IndexedSubset<String> SUBSET = IndexedSubSets.createSubset(UNIVERSE);
+	private final IndexType indexType;
+
+	public TestCheapSetGenerator(IndexType indexType) {
+		this.indexType = checkNotNull(indexType, "indexType");
+	}
 
 	@Override
 	public SampleElements<String> samples() {
@@ -41,7 +47,7 @@ public final class TestCheapSetGenerator implements TestSetGenerator<String>, Te
 
 	@Override
 	public Set<String> create(Object... elements) {
-		SubsetLimitedSet<String> created = SubsetLimitedSet.create(SUBSET);
+		SubsetLimitedSet<String> created = SubsetLimitedSet.create(indexType.create(UNIVERSE));
 		
 		for (Object element : elements) {
 			created.add((String)element);

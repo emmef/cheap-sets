@@ -35,14 +35,20 @@ abstract class SubSetLimitedMapView<K, V, T, U extends SubSetLimitedMapView<K, V
 	@Override
 	public Iterator<T> iterator() {
 		return new Iterator<T>() {
+			final int maxPosition = map.getSubset().indexSize() - 1;
 			int position = 0;
 			int removeAt = -1;
 			T next;
 
 			@Override
 			public boolean hasNext() {
+				if (next != null) {
+					return true;
+				}
+				if (position >= maxPosition) {
+					return false;
+				}
 				next = elementAt(position);
-				int maxPosition = map.getSubset().indexSize() - 1;
 				while (next == null && position < maxPosition) {
 					position++;
 					next = elementAt(position);
@@ -55,6 +61,7 @@ abstract class SubSetLimitedMapView<K, V, T, U extends SubSetLimitedMapView<K, V
 			public T next() {
 				if (hasNext()) {
 					T result = next;
+					next = null;
 					removeAt = position++;
 					return result;
 				}

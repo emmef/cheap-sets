@@ -1,5 +1,7 @@
 package org.emmef.cheapsets;
 
+import static com.google.common.base.Preconditions.*;
+
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -13,24 +15,95 @@ import org.emmef.cheapsets.universes.OrderedIndexedSubSet;
 import com.google.common.collect.ImmutableList;
 
 public class IndexedSubSets {
-	
 	public static final int DEFAULT_NAIVE_THRESHOLD = 10;
 	
 	public static Stats createStats() {
 		return new Stats();
 	}
-	
-	@SuppressWarnings("unchecked")
-	public static <E> IndexedSubset<E> createSubset(Set<E> set, List<HashFunction> hashFunctions, int naiveThreshold) {
-		if (set instanceof IndexedSubset) {
-			Stats.addIdempotentBased();
-			return (IndexedSubset<E>)set;
-		}
-		if (set instanceof DefaultSubsetLimitedSet) {
-			Stats.addIdempotentBased();
-			return ((DefaultSubsetLimitedSet<E,?>) set).subSet();
+
+	/**
+	 * Creates an indexed subset based on the given universe.
+	 * <p>
+	 * A best-effort will be used to create a set that isn't too big or to slow:
+	 * <ul>
+	 * <li>If the set is smaller than {@link #DEFAULT_NAIVE_THRESHOLD}, a  
+	 * 
+	 * @param universe
+	 * @return
+	 */
+	public static <E> IndexedSubset<E> create(Set<E> universe) {
+		IndexedSubset<E> idempotent = getIdempotentFromNotNull(universe);
+		
+		if (idempotent != null) {
+			return idempotent;
 		}
 		
+		return createSubSet(universe, HashFunction.DEFAULT_SAFE_HASHES, DEFAULT_NAIVE_THRESHOLD);
+	}
+	
+	public static <E> IndexedSubset<E> create(Set<E> universe, List<HashFunction> hashFunctions, int naiveThreshold) {
+		IndexedSubset<E> idempotent = getIdempotentFromNotNull(universe);
+		
+		if (idempotent != null) {
+			return idempotent;
+		}
+		checkHashFunctions(hashFunctions);
+		
+		return createSubSet(universe, hashFunctions, naiveThreshold);
+	}
+	
+	public static <E> IndexedSubset<E> createUseNoHashes(Set<E> universe) {
+		IndexedSubset<E> idempotent = getIdempotentFromNotNull(universe);
+		
+		if (idempotent != null) {
+			return idempotent;
+		}
+		return createSubSet(universe, ImmutableList.<HashFunction>of(), DEFAULT_NAIVE_THRESHOLD);
+	}
+	
+	public static <E extends Comparable<E>> IndexedSubset<E> createSorted(Set<E> universe) {
+		IndexedSubset<E> idempotent = getIdempotentFromNotNull(universe);
+		
+		if (idempotent != null) {
+			return idempotent;
+		}
+		
+		return new OrderedIndexedSubSet<>(universe);
+	}
+
+	public static <E> IndexedSubset<E> createHashed(Set<E> universe) {
+		IndexedSubset<E> idempotent = getIdempotentFromNotNull(universe);
+		
+		if (idempotent != null) {
+			return idempotent;
+		}
+		
+		return createHashedSubSet(universe, HashFunction.DEFAULT_SAFE_HASHES);
+	}
+
+	public static <E> IndexedSubset<E> createHashed(Set<E> universe, List<HashFunction> hashFunctions) {
+		IndexedSubset<E> idempotent = getIdempotentFromNotNull(universe);
+		
+		if (idempotent != null) {
+			return idempotent;
+		}
+		checkHashFunctions(hashFunctions);
+		
+		return createHashedSubSet(universe, hashFunctions);
+	}
+	
+	private static <E> IndexedSubset<E> createHashedSubSet(Set<E> universe, List<HashFunction> hashFunctions) {
+		IndexedSubset<E> hashedSet = HashedArrayIndexedSubset.createFrom(universe, 4, hashFunctions);
+		
+		if (hashedSet != null) {
+			Stats.addHashBased();
+			return hashedSet;
+		}
+		
+		throw new IllegalArgumentException("Cannot create a hash-based indexed subset without collisions"); 
+	}
+	
+	private static <E> IndexedSubset<E> createSubSet(Set<E> set, List<HashFunction> hashFunctions, int naiveThreshold) {
 		if (set.size() < naiveThreshold) {
 			Stats.addNaive();
 			return new NaiveArrayUniverse<E>(set);
@@ -47,17 +120,31 @@ public class IndexedSubSets {
 		Stats.addMapBased();
 		return new MapBasedIndexedSubset<E>(set);
 	}
-	
-	public static <E> IndexedSubset<E> createSubset(Set<E> universe) {
-		return createSubset(universe, HashFunction.DEFAULT_SAFE_HASHES, DEFAULT_NAIVE_THRESHOLD);
+
+	private static void checkHashFunctions(List<HashFunction> hashFunctions) {
+		checkNotNull(hashFunctions, "hashFunctions");
+		
+		if (hashFunctions.isEmpty()) {
+			throw new IllegalArgumentException("Must provide a non-empty list of hash functions"); 
+		}
 	}
 	
-	public static <E> IndexedSubset<E> createSubsetNoHashes(Set<E> universe) {
-		return createSubset(universe, ImmutableList.<HashFunction>of(), DEFAULT_NAIVE_THRESHOLD);
-	}
-	
-	public static <E extends Comparable<E>> IndexedSubset<E> createOrderedSubSet(Set<E> universe) {
-		return new OrderedIndexedSubSet<>(universe);
+	private static <V> IndexedSubset<V> getIdempotentFromNotNull(Set<V> universe) {
+		checkNotNull(universe, "universe");
+		
+		if (universe instanceof IndexedSubset) {
+			Stats.addIdempotentBased();
+			return (IndexedSubset<V>)universe;
+		}
+		
+		if (universe instanceof DefaultSubsetLimitedSet) {
+			Stats.addIdempotentBased();
+			@SuppressWarnings("unchecked")
+			IndexedSubset<V> castInstance = ((DefaultSubsetLimitedSet<V,?>) universe).subSet();
+			return castInstance;
+		}
+
+		return null;
 	}
 
 	public static class Stats {

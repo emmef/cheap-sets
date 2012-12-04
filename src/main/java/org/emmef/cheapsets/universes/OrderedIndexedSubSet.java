@@ -24,6 +24,9 @@ public final class OrderedIndexedSubSet<T extends Comparable<T>> extends Abstrac
 
 	@Override
 	public int indexOf(Object element) {
+		if (element == null) {
+			return -1;
+		}
 		int search = Arrays.binarySearch(this.universe, element);
 		
 		return search >= 0 ? search : -1;

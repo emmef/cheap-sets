@@ -52,7 +52,7 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 			this.values = slm.values.clone();
 		}
 		else {
-			this.subset = IndexedSubSets.createSubset(map.keySet());
+			this.subset = IndexedSubSets.create(map.keySet());
 			this.values = new Object[this.subset.indexSize()];
 			this.size = 0;
 			putAll(map);
@@ -260,7 +260,13 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 	
 	@SuppressWarnings("unchecked")
 	final V getAt(int indexOf) {
-		return (V) values[indexOf];
+		try {
+			return (V) values[indexOf];
+		}
+		catch (ArrayIndexOutOfBoundsException e) {
+			System.err.println();
+			throw e;
+		}
 	}
 	
 	IndexedSubset<K> getSubset() {

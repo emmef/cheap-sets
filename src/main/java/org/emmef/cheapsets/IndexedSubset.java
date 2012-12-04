@@ -26,38 +26,27 @@ import java.util.Set;
  * to be used and most probably aren't. In other words: the index size can 
  * be larger than the number of elements in the subset. This index size if  
  * returned by {@link #indexSize()}.
- *       
+ *
  * @param <T> type of elements in the subset
  */
 public interface IndexedSubset<T> extends Set<T>, IndexFunction {
+	
 	/**
-	 * Retrieves the index of the element if it is contained, {@code -1} otherwise.
-	 * <p>
+	 * {@inheritDoc}
 	 * The subset cannot contain {@code null}, so passing that as an argument 
 	 * causes a return value of {@code -1}.
-	 * 
-	 * @param element element to search.
-	 * @return the index of the element in the subset or {@code -1} if the element is 
-	 *     not a member of the subset. The index is zero or positive and smaller 
-	 *     than {@link #indexSize()}. 
 	 */
+	@Override
 	int indexOf(Object element);
+
 	/**
-	 * Returns the index size.
+	 * {@inheritDoc}
 	 * <p>
-	 * The index size is always equal to or greater than the number of elements
-	 * returned by {@link #size()}.
-	 * 
-	 * @return a positive integer that is equal to or greater than {@link #size()}.
-	 */
-	int indexSize();
-	/**
-	 * Returns the number of elements in the subset.
-	 *  
-	 * @return a positive integer that is equal to or smaller than {@link #indexSize()}.
+	 * The size is always smaller than {@link #indexSize()}.
 	 */
 	@Override
 	int size();
+	
 	/**
 	 * Returns the element at the specified {@code index} or {@code null} if there is 
 	 *     no element at the specified position.
