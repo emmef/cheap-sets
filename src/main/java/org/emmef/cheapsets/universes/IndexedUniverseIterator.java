@@ -1,19 +1,15 @@
-package org.emmef.cheapsets.util;
+package org.emmef.cheapsets.universes;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.emmef.cheapsets.universes.AbstractIndexedSubset;
 
-public final class DefaultIndexedUniverseIterator<T> implements Iterator<T> {
+final class IndexedUniverseIterator<T> implements Iterator<T> {
 	private final AbstractIndexedSubset<T> universe;
 	private T next = null;
 	private int position = 0;
 
-	/**
-	 * @param abstractIndexedUniverse
-	 */
-	public DefaultIndexedUniverseIterator(AbstractIndexedSubset<T> abstractIndexedUniverse) {
+	public IndexedUniverseIterator(AbstractIndexedSubset<T> abstractIndexedUniverse) {
 		universe = abstractIndexedUniverse;
 	}
 

@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.emmef.cheapsets.IndexedSubset;
-import org.emmef.cheapsets.util.DefaultIndexedUniverseIterator;
 import org.emmef.cheapsets.util.IndexedUniverseHelper;
 
 /**
@@ -15,7 +14,7 @@ import org.emmef.cheapsets.util.IndexedUniverseHelper;
  * @param <T> type of elements to contain
  * @see IndexedSubset
  */
-public abstract class AbstractIndexedSubset<T> implements IndexedSubset<T> {
+abstract class AbstractIndexedSubset<T> implements IndexedSubset<T> {
 	@Override
 	public final boolean contains(Object o) {
 		return indexOf(o) != -1;
@@ -28,7 +27,7 @@ public abstract class AbstractIndexedSubset<T> implements IndexedSubset<T> {
 
 	@Override
 	public Iterator<T> iterator() {
-		return new DefaultIndexedUniverseIterator<T>(this);
+		return new IndexedUniverseIterator<T>(this);
 	}
 
 	@Override
