@@ -9,6 +9,7 @@ import java.util.Set;
 import org.emmef.cheapsets.IndexedSubset;
 import org.emmef.cheapsets.hash.HashFunction;
 import org.emmef.cheapsets.util.IndexedUniverseHelper;
+import org.emmef.cheapsets.util.PowerOfTwo;
 
 public class HashedArrayIndexedSubset<T> extends IndexFunctionIndexedUniverse<T> {
 	private HashedArrayIndexedSubset(Object[] hashedElementArray, HashIndexedFunction function, int elementCount) {
@@ -16,30 +17,37 @@ public class HashedArrayIndexedSubset<T> extends IndexFunctionIndexedUniverse<T>
 	}
 	
 	/**
-	 * Creates a hash-based {@link IndexedSubset} that contains all elements from {@code values} 
-	 *    uniquely mapped to an index, or returns {@code null} if that is not possible.
+	 * Creates a hash-based {@link IndexedSubset} that contains all elements
+	 * from {@code values} uniquely mapped to an index, or returns {@code null}
+	 * if that is not possible.
 	 * <p>
-	 * Elements can not be {@code null} and the set of elements cannot be empty. 
-	 * <p>Initially, an attempt is made to fit all elements in an array that has a size that is the minimum
-	 * power of two that is greater than or equal to the number of elements in {@code values}. Each
-	 * hash function in {@code hashFunctions} will be tried in order, and the first that succeeds will 
-	 * be used in the returned universe. If the attempt fails with all hash functions, the 
-	 * array size is doubled. This doubling of size is called a power shift and can be done up to a 
-	 * maximum of {@code powerShifts} times. The maximum value of {@code powerShifts} is limited internally 
-	 * to 4.
+	 * Elements can not be {@code null} and the set of elements cannot be empty.
 	 * <p>
-	 * If it is not possible to map all elements uniquely within the number of power shifts and combined
-	 * with all provided hash functions, this method returns {@code null}.</p>
+	 * Initially, an attempt is made to fit all elements in an array that has a
+	 * size that is the minimum power of two that is greater than or equal to
+	 * the number of elements in {@code values}. Each hash function in
+	 * {@code hashFunctions} will be tried in order, and the first that succeeds
+	 * will be used in the returned universe. If the attempt fails with all hash
+	 * functions, the array size is doubled. This doubling of size is called a
+	 * power shift and can be done up to a maximum of {@code powerShifts} times.
+	 * The maximum value of {@code powerShifts} is limited internally to 4.
+	 * <p>
+	 * If it is not possible to map all elements uniquely within the number of
+	 * power shifts and combined with all provided hash functions, this method
+	 * returns {@code null}.
+	 * </p>
 	 * 
 	 * @param values universe values
 	 * @param powerShifts maximum allowed number of size doubles
 	 * @param hashFunctions list of hash functions to try for each size
 	 * 
-	 * @return a Hash-based {@link IndexedSubset} or <code>null</code> if that is not possible. 
+	 * @return a Hash-based {@link IndexedSubset} or <code>null</code> if that
+	 *         is not possible.
 	 */
 	public static <T> IndexedSubset<T> createFrom(Set<T> values, int powerShifts, List<HashFunction> hashFunctions) {
 		checkNotNull(values, "values");
 		checkNotNull(hashFunctions, "hashFunctions");
+		checkArgument(powerShifts > 0, "Number of powershifts must be positive");
 		if (hashFunctions.isEmpty()) {
 			return null;
 		}
@@ -52,7 +60,7 @@ public class HashedArrayIndexedSubset<T> extends IndexFunctionIndexedUniverse<T>
 			return new SingleElementIndexedUniverse<T>(values.toArray()[0]);
 		}
 		
-		int size = equalOrGreaterPowerOfTwo(elementCount);
+		int size = PowerOfTwo.sameOrBigger(elementCount);
 		int maxSize = getMaxSize(size, powerShifts);
 		
 		do {
@@ -72,34 +80,22 @@ public class HashedArrayIndexedSubset<T> extends IndexFunctionIndexedUniverse<T>
 	}
 	
 	public static <T> IndexedSubset<T> createFrom(Set<T> values, int powerShifts) {
-		return createFrom(values, powerShifts, HashFunction.DEFAULT_SAFE_HASHES);
+		return createFrom(values, powerShifts, HashFunction.DEFAULT_FUNCTIONS);
 	}
 	
 	public static <T> IndexedSubset<T> createFrom(Set<T> values) {
-		return createFrom(values, 4, HashFunction.DEFAULT_SAFE_HASHES);
-	}
-
-	private static int equalOrGreaterPowerOfTwo(int elementCount) {
-		if (elementCount > HashIndexedFunction.MAX_SIZE) {
-			throw new IllegalArgumentException("Size (" + elementCount + ") exceeds the maximum number of elements in a " + HashedArrayIndexedSubset.class.getSimpleName() + " (" + HashIndexedFunction.MAX_SIZE + ")");
-		}
-		int size = 1;
-		while (size < elementCount) {
-			size <<= 1;
-		}
-		return size;
+		return createFrom(values, 4, HashFunction.DEFAULT_FUNCTIONS);
 	}
 	
 	private static int getMaxSize(int size, int maxShifts) {
-		int shifts = maxShifts < 0 ? 0 : maxShifts > 4 ? 4 : maxShifts;
-		long sz = size;
-		long max = HashIndexedFunction.MAX_SIZE;
-		
-		for (int i = 0; i < shifts && sz < max; i++) {
-			sz *= 2;
+		int shifts = Math.min(maxShifts, 4);
+		long max = PowerOfTwo.MAX >> shifts;
+			
+		if (size > max) {
+			return PowerOfTwo.MAX;
 		}
 		
-		return (int)Math.min(sz, max); 
+		return size << shifts;
 	}
 	
 	private static <T> boolean mappedUniquelyInTarget(Set<T> values, Object[] target, HashFunction hashFunction) {
