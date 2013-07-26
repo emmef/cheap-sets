@@ -1,5 +1,11 @@
 package org.emmef.cheapsets;
 
+/**
+ * Implementation of {@link IndexSet} that has a bound of 64,
+ * and thus supports indices between 0 and 63.
+ * 
+ * @documented 2013-07-26
+ */
 class SmallIndexSet implements IndexSet<SmallIndexSet> {
 	private long present;
 
@@ -14,6 +20,11 @@ class SmallIndexSet implements IndexSet<SmallIndexSet> {
 	@Override
 	public int count() {
 		return Long.bitCount(present);
+	}
+	
+	@Override
+	public int bound() {
+		return 64;
 	}
 	
 	@Override

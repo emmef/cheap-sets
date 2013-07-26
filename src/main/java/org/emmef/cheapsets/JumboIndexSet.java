@@ -1,5 +1,12 @@
 package org.emmef.cheapsets;
 
+/**
+ * Implementation of {@link IndexSet} that has a bound that is 
+ * a multiple of 64, and thus supports indices between 0 and that
+ * multiple minus one.
+ * 
+ * @documented 2013-07-26
+ */
 class JumboIndexSet implements IndexSet<JumboIndexSet> {
 	private final long[] present;
 
@@ -23,6 +30,11 @@ class JumboIndexSet implements IndexSet<JumboIndexSet> {
 		}
 		
 		return count;
+	}
+	
+	@Override
+	public int bound() {
+		return 64 * present.length;
 	}
 	
 	@Override

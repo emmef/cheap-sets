@@ -1,5 +1,11 @@
 package org.emmef.cheapsets;
 
+/**
+ * Implementation of {@link IndexSet} that has a bound of 32,
+ * and thus supports indices between 0 and 31.
+ * 
+ * @documented 2013-07-26
+ */
 class MiniIndexSet implements IndexSet<MiniIndexSet> {
 	private int present;
 
@@ -14,6 +20,11 @@ class MiniIndexSet implements IndexSet<MiniIndexSet> {
 	@Override
 	public int count() {
 		return Long.bitCount(present);
+	}
+	
+	@Override
+	public int bound() {
+		return 32;
 	}
 	
 	@Override
