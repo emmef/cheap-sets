@@ -33,6 +33,7 @@ public interface IndexedSubset<T> extends Set<T>, IndexFunction {
 	
 	/**
 	 * {@inheritDoc}
+	 * <p>
 	 * The subset cannot contain {@code null}, so passing that as an argument 
 	 * causes a return value of {@code -1}.
 	 */

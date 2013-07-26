@@ -38,7 +38,7 @@ public class IndexedSubSets {
 			return idempotent;
 		}
 		
-		return createSubSet(universe, HashFunction.DEFAULT_SAFE_HASHES, DEFAULT_NAIVE_THRESHOLD);
+		return createSubSet(universe, HashFunction.DEFAULT_FUNCTIONS, DEFAULT_NAIVE_THRESHOLD);
 	}
 	
 	public static <E> IndexedSubset<E> create(Set<E> universe, List<HashFunction> hashFunctions, int naiveThreshold) {
@@ -78,7 +78,7 @@ public class IndexedSubSets {
 			return idempotent;
 		}
 		
-		return createHashedSubSet(universe, HashFunction.DEFAULT_SAFE_HASHES);
+		return createHashedSubSet(universe, HashFunction.DEFAULT_FUNCTIONS);
 	}
 
 	public static <E> IndexedSubset<E> createHashed(Set<E> universe, List<HashFunction> hashFunctions) {
