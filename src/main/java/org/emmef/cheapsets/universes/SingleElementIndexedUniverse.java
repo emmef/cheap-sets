@@ -17,7 +17,7 @@ public class SingleElementIndexedUniverse<T> implements IndexedUniverse<T> {
 	}
 
 	@Override
-	public int indexSize() {
+	public int indexBoundary() {
 		return 1;
 	}
 

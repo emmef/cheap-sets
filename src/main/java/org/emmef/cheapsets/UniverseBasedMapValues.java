@@ -24,7 +24,7 @@ class UniverseBasedMapValues<K, V> extends UniverseBasedMapView<K, V, V, Univers
 			return false;
 		}
 		boolean modified = false;
-		int indexSize = getSubSet().indexSize();
+		int indexSize = getSubSet().indexBoundary();
 		for (int i = 0; i < indexSize; i++) {
 			Object value = getMap().getAt(i);
 			if (value != null && o.equals(value)) {
@@ -48,7 +48,7 @@ class UniverseBasedMapValues<K, V> extends UniverseBasedMapView<K, V, V, Univers
 		if (getSubSet() != set.getSubSet()) {
 			return false;
 		}
-		int indexSize = getSubSet().indexSize();
+		int indexSize = getSubSet().indexBoundary();
 		UniverseBasedMap<K, V> myMap = getMap();
 		UniverseBasedMap<?,?> otherMap = set.getMap();
 		for (int i = 0; i < indexSize; i++) {
@@ -62,7 +62,7 @@ class UniverseBasedMapValues<K, V> extends UniverseBasedMapView<K, V, V, Univers
 	@Override
 	public int hashCode() {
 		int hash = 17;
-		int indexSize = getSubSet().indexSize();
+		int indexSize = getSubSet().indexBoundary();
 		for (int i = 0; i < indexSize; i++) {
 			Object o = elementAt(i);
 			hash += o != null ? o.hashCode() : 0;

@@ -29,7 +29,7 @@ public abstract class UniverseBasedSet<E> implements Set<E>, Cloneable {
 	 */
 	public static <E> UniverseBasedSet<E> create(IndexedUniverse<E> subset) {
 		checkNotNull(subset, "subset");
-		int indexSize = subset.indexSize();
+		int indexSize = subset.indexBoundary();
 		if (indexSize <= 32) {
 			return new DefaultUniverseBasedSet<E, MiniIndexSet>(subset, new MiniIndexSet());
 		}

@@ -47,7 +47,7 @@ class DefaultUniverseBasedSet<E, S extends IndexSet<S>> extends UniverseBasedSet
 				if (next != null) {
 					return true;
 				}
-				while (next == null && position < universe.indexSize()) {
+				while (next == null && position < universe.indexBoundary()) {
 					E element = universe.elementAt(position);
 					if (element != null && indexSet.presentAt(position)) {
 						next = element;
@@ -85,7 +85,7 @@ class DefaultUniverseBasedSet<E, S extends IndexSet<S>> extends UniverseBasedSet
 	public Object[] toArray() {
 		int size = indexSet.count();
 		Object[] result = new Object[size];
-		int indexSize = universe.indexSize();
+		int indexSize = universe.indexBoundary();
 		int idx = 0;
 		for (int i = 0; i < indexSize; i++) {
 			if (indexSet.presentAt(i)) {
@@ -112,7 +112,7 @@ class DefaultUniverseBasedSet<E, S extends IndexSet<S>> extends UniverseBasedSet
 				result[size] = null;
 			}
 		}
-		int indexSize = universe.indexSize();
+		int indexSize = universe.indexBoundary();
 		int idx = 0;
 		for (int i = 0; i < indexSize; i++) {
 			if (indexSet.presentAt(i)) {
@@ -196,7 +196,7 @@ class DefaultUniverseBasedSet<E, S extends IndexSet<S>> extends UniverseBasedSet
 			return indexSet.retainAll(((DefaultUniverseBasedSet<?, S>) c).indexSet);
 		}
 		boolean changed = false;
-		for (int i = 0; i < universe.indexSize(); i++) {
+		for (int i = 0; i < universe.indexBoundary(); i++) {
 			if (indexSet.presentAt(i) && !c.contains(universe.elementAt(i))) {
 				indexSet.removeAt(i);
 				changed = true;
@@ -252,7 +252,7 @@ class DefaultUniverseBasedSet<E, S extends IndexSet<S>> extends UniverseBasedSet
 	
 	public int hashCode() {
 		int hash = 0;
-		int indexSize = universe.indexSize();
+		int indexSize = universe.indexBoundary();
 		for (int i = 0; i < indexSize; i++) {
 			if (indexSet.presentAt(i)) {
 				hash += universe.elementAt(i).hashCode();
@@ -285,7 +285,7 @@ class DefaultUniverseBasedSet<E, S extends IndexSet<S>> extends UniverseBasedSet
 		}
 		
 		StringBuilder string = new StringBuilder();
-		int indexSize = universe.indexSize();
+		int indexSize = universe.indexBoundary();
 		
 		boolean first = true;
 		for (int i = 0; i < indexSize; i++) {

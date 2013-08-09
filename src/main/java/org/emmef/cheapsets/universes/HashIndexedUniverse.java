@@ -6,7 +6,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.List;
 import java.util.Set;
 
-import org.emmef.cheapsets.IndexFunction;
 import org.emmef.cheapsets.IndexedUniverse;
 import org.emmef.cheapsets.hash.HashFunction;
 import org.emmef.cheapsets.util.PowerOfTwo;
@@ -15,22 +14,30 @@ public final class HashIndexedUniverse<T> implements IndexedUniverse<T> {
 	private final int elementCount;
 	private final Object[] universe;
 	private final int size;
-	private final IndexFunction indexFunction;
+	private final int mask;
+	private final HashFunction hashFunction;
 
-	private HashIndexedUniverse(int elementCount, Object[] target, int size, IndexFunction indexFunction) {
+	private HashIndexedUniverse(int elementCount, Object[] target, int size, HashFunction hashFunction) {
 		this.elementCount = elementCount;
 		this.universe = target;
 		this.size = size;
-		this.indexFunction = indexFunction;
+		this.mask = size - 1;
+		this.hashFunction = hashFunction;
 	}
 
 	@Override
 	public int indexOf(Object element) {
-		return indexFunction.indexOf(element);
+		int index = mask & hashFunction.hashCode(element);
+		
+		if (universe[index] != null && universe[index].equals(element)) {
+			return index;
+		}
+		
+		return -1;
 	}
 
 	@Override
-	public int indexSize() {
+	public int indexBoundary() {
 		return size;
 	}
 
@@ -101,7 +108,7 @@ public final class HashIndexedUniverse<T> implements IndexedUniverse<T> {
 			for (int i = 0; i < hashFunctions.size(); i++) {
 				HashFunction hashFunction = hashFunctions.get(i);
 				if (mappedUniquelyInTarget(values, target, hashFunction)) {
-					return new HashIndexedUniverse<T>(elementCount, target, size, hashFunction.indexFunction(size));
+					return new HashIndexedUniverse<T>(elementCount, target, size, hashFunction);
 				}
 				nullArray(target);
 			}

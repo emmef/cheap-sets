@@ -39,7 +39,7 @@ class UniverseBasedMapEntrySet<K, V> extends UniverseBasedMapSetView<K, V, Map.E
 	@Override
 	boolean modifyAllFromEquivalent(UniverseBasedMapEntrySet<K, V> equivalent, Modification modification) {
 		boolean modified = false;
-		int indexSize = getSubSet().indexSize();
+		int indexSize = getSubSet().indexBoundary();
 		
 		switch (modification) {
 		case REMOVE:

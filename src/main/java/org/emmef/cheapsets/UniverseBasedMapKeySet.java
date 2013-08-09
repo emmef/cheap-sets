@@ -27,7 +27,7 @@ class UniverseBasedMapKeySet<K, V> extends UniverseBasedMapSetView<K, V, K, Univ
 	@Override
 	boolean modifyAllFromEquivalent(UniverseBasedMapKeySet<K, V> equivalent, Modification modification) {
 		boolean modified = false;
-		int indexSize = getMap().getSubset().indexSize();
+		int indexSize = getMap().getSubset().indexBoundary();
 		switch (modification) {
 		case REMOVE:
 			for (int i = 0; i < indexSize; i++) {

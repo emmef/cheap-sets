@@ -33,7 +33,7 @@ public class NaiveArrayUniverse<T> implements IndexedUniverse<T> {
 	}
 
 	@Override
-	public int indexSize() {
+	public int indexBoundary() {
 		return universe.length;
 	}
 

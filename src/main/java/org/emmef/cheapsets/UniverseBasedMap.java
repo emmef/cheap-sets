@@ -25,7 +25,7 @@ public class UniverseBasedMap<K, V> implements Map<K, V> {
 
 	public UniverseBasedMap(IndexedUniverse<K> subset) {
 		this.subset = checkNotNull(subset, "subset");
-		this.values = new Object[subset.indexSize()];
+		this.values = new Object[subset.indexBoundary()];
 		this.size = 0;
 	}
 	
@@ -52,7 +52,7 @@ public class UniverseBasedMap<K, V> implements Map<K, V> {
 		}
 		else {
 			this.subset = IndexedSubSets.create(map.keySet());
-			this.values = new Object[this.subset.indexSize()];
+			this.values = new Object[this.subset.indexBoundary()];
 			this.size = 0;
 			putAll(map);
 		}
@@ -140,7 +140,7 @@ public class UniverseBasedMap<K, V> implements Map<K, V> {
 	public void putAll(Map<? extends K, ? extends V> m) {
 		if (m instanceof UniverseBasedMap && ((UniverseBasedMap<? extends K, ? extends V>)m).subset == subset) {
 			Object[] otherValues = ((UniverseBasedMap<? extends K, ? extends V>)m).values;
-			for (int i = 0; i < subset.indexSize(); i++) {
+			for (int i = 0; i < subset.indexBoundary(); i++) {
 				@SuppressWarnings("unchecked")
 				V otherValue = (V)otherValues[i];
 				if (otherValue != null) {
@@ -157,7 +157,7 @@ public class UniverseBasedMap<K, V> implements Map<K, V> {
 
 	@Override
 	public void clear() {
-		for (int i = 0; i < subset.indexSize(); i++) {
+		for (int i = 0; i < subset.indexBoundary(); i++) {
 			values[i] = null;
 		}
 		size = 0;
@@ -213,7 +213,7 @@ public class UniverseBasedMap<K, V> implements Map<K, V> {
 		}
 		StringBuilder text = new StringBuilder();
 		text.append('[');
-		int indexSize = subset.indexSize();
+		int indexSize = subset.indexBoundary();
 		boolean first = true;
 		for (int i = 0; i < indexSize; i++) {
 			Object value = values[i];

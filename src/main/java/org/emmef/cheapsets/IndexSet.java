@@ -1,10 +1,17 @@
 package org.emmef.cheapsets;
 
+import java.util.Set;
+
 /**
  * Registers the presence of elements at a limited set of indices.
  * <p>
  * The indices are limited between 0 (inclusive) and the result of
  * {@link #bound()} (exclusive).
+ * <p>
+ * An index set and an {@link IndexedUniverse} can be combined to 
+ * create a rather lightweight {@link Set} or map implementation.
+ * 
+ * @see IndexedUniverse
  * 
  * @documented 2013-07-26
  */

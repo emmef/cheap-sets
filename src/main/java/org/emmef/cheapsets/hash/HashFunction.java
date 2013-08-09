@@ -1,12 +1,9 @@
 package org.emmef.cheapsets.hash;
 
-import org.emmef.cheapsets.IndexFunction;
-
 import com.google.common.collect.ImmutableList;
 
 /**
- * Returns hash codes for elements. A hash function is used by the
- * {@link HashIndexedFunction} to index its elements.
+ * Returns hash codes for elements. 
  * 
  * @documented 2013-07-26
  */
@@ -19,16 +16,6 @@ public interface HashFunction {
 	 * @documented 2013-07-26
 	 */
 	int hashCode(Object element);
-	
-	/**
-	 * Get an index function that is based on this hash function and 
-	 *    limited to {@code size} elements, where size is a power of two.
-	 * 
-	 * @param size maximum size of the index
-	 * @return a {@code non-null} {@link IndexFunction}
-	 * @documented 2013-07-26
-	 */
-	IndexFunction indexFunction(int size);
 	
 	/**
 	 * Function that gives the element's own hash-code or zero if the element is {@code null}.

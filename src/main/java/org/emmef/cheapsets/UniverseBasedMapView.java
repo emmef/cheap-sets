@@ -35,7 +35,7 @@ abstract class UniverseBasedMapView<K, V, T, U extends UniverseBasedMapView<K, V
 	@Override
 	public Iterator<T> iterator() {
 		return new Iterator<T>() {
-			final int maxPosition = map.getSubset().indexSize() - 1;
+			final int maxPosition = map.getSubset().indexBoundary() - 1;
 			int position = 0;
 			int removeAt = -1;
 			T next;
@@ -84,7 +84,7 @@ abstract class UniverseBasedMapView<K, V, T, U extends UniverseBasedMapView<K, V
 	public Object[] toArray() {
 		int size = map.size();
 		Object[] result = new Object[size];
-		int indexSize = map.getSubset().indexSize();
+		int indexSize = map.getSubset().indexBoundary();
 		int idx = 0;
 		for (int i = 0; i < indexSize; i++) {
 			Object element = elementAt(i);
@@ -114,7 +114,7 @@ abstract class UniverseBasedMapView<K, V, T, U extends UniverseBasedMapView<K, V
 		}
 		
 		int idx = 0;
-		int indexSize = map.getSubset().indexSize();
+		int indexSize = map.getSubset().indexBoundary();
 		
 		for (int i = 0; i < indexSize; i++) {
 			W element = (W)elementAt(i);
@@ -195,7 +195,7 @@ abstract class UniverseBasedMapView<K, V, T, U extends UniverseBasedMapView<K, V
 		
 		text.append('[');
 		boolean first = true;
-		int indexSize = map.getSubset().indexSize();
+		int indexSize = map.getSubset().indexBoundary();
 		for (int i = 0; i < indexSize; i++) {
 			T elementAt = elementAt(i);
 			if (elementAt != null) {
@@ -231,7 +231,7 @@ abstract class UniverseBasedMapView<K, V, T, U extends UniverseBasedMapView<K, V
 	}
 	
 	protected boolean retainFromCollection(Collection<?> c) {
-		int indexSize = map.getSubset().indexSize();
+		int indexSize = map.getSubset().indexBoundary();
 		boolean modified = false;
 		for (int i = 0; i < indexSize; i++) {
 			T elementAt = elementAt(i);

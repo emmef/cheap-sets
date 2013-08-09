@@ -1,6 +1,5 @@
 package org.emmef.cheapsets.hash;
 
-import org.emmef.cheapsets.IndexFunction;
 
 /**
  * Hash function that returns the hash-code of the element, optimized by a 
@@ -33,10 +32,5 @@ public enum SmearHashFunction implements HashFunction {
 	@Override
 	public int hashCode(Object element) {
 		return element != null ? SmearHashFunction.smear(element.hashCode()) : 0;
-	}
-	
-	@Override
-	public IndexFunction indexFunction(int size) {
-		return new HashIndexedFunction(size, this);
 	}
 }

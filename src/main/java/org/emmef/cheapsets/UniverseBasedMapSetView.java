@@ -32,7 +32,7 @@ abstract class UniverseBasedMapSetView<K, V, T, U extends UniverseBasedMapSetVie
 	@Override
 	public final int hashCode() {
 		int hash = 0;
-		int indexSize = getSubSet().indexSize();
+		int indexSize = getSubSet().indexBoundary();
 		for (int i = 0; i < indexSize; i++) {
 			Object o = elementAt(i);
 			hash += o != null ? o.hashCode() : 0;

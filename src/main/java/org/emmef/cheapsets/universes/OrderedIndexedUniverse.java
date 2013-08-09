@@ -35,7 +35,7 @@ public final class OrderedIndexedUniverse<T extends Comparable<T>> implements In
 	}
 
 	@Override
-	public int indexSize() {
+	public int indexBoundary() {
 		return universe.length;
 	}
 
