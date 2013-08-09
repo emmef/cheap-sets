@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Maps keys inside an {@link IndexedSubset} to values.
+ * Maps keys inside an {@link IndexedUniverse} to values.
  * <p>
  * Only keys that are in the subset are allowed and for both 
  * keys and values cannot be {@code null}.
@@ -16,14 +16,14 @@ import java.util.Set;
  * @param <K> type of keys
  * @param <V> type of values
  * @see IndexedSubSet
- * @see SubsetLimitedSet
+ * @see UniverseBasedSet
  */
-public class SubSetLimitedMap<K, V> implements Map<K, V> {
-	private final IndexedSubset<K> subset;
+public class UniverseBasedMap<K, V> implements Map<K, V> {
+	private final IndexedUniverse<K> subset;
 	private final Object[] values;
 	private int size;
 
-	public SubSetLimitedMap(IndexedSubset<K> subset) {
+	public UniverseBasedMap(IndexedUniverse<K> subset) {
 		this.subset = checkNotNull(subset, "subset");
 		this.values = new Object[subset.indexSize()];
 		this.size = 0;
@@ -34,19 +34,18 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 	 * 
 	 * @param set set to use the indexed sub set from
 	 * @return an empty map 
-	 * @see IndexedSubset
 	 */
-	public static <K, V> SubSetLimitedMap<K, V> basedOn(SubsetLimitedSet<K> set) {
+	public static <K, V> UniverseBasedMap<K, V> basedOn(UniverseBasedSet<K> set) {
 		checkNotNull(set, "set");
 		
-		return new SubSetLimitedMap<>(set.subSet());
+		return new UniverseBasedMap<>(set.subSet());
 	}
 	
-	public SubSetLimitedMap(Map<K, V> map) {
+	public UniverseBasedMap(Map<K, V> map) {
 		checkNotNull(map, "map");
 		
-		if (map instanceof SubSetLimitedMap) {
-			SubSetLimitedMap<K, V> slm = (SubSetLimitedMap<K, V>)map; 
+		if (map instanceof UniverseBasedMap) {
+			UniverseBasedMap<K, V> slm = (UniverseBasedMap<K, V>)map; 
 			this.subset = slm.subset;
 			this.size = slm.size;
 			this.values = slm.values.clone();
@@ -99,7 +98,7 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 
 	/**
 	 * Map the key to the specified value if the key is backed by 
-	 * the used subset ({@link IndexedSubset}).
+	 * the used subset ({@link IndexedUniverse}).
 	 * 
 	 * @see Map
 	 * @throws NullPointerException if either key or value are {@code null}
@@ -139,8 +138,8 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 
 	@Override
 	public void putAll(Map<? extends K, ? extends V> m) {
-		if (m instanceof SubSetLimitedMap && ((SubSetLimitedMap<? extends K, ? extends V>)m).subset == subset) {
-			Object[] otherValues = ((SubSetLimitedMap<? extends K, ? extends V>)m).values;
+		if (m instanceof UniverseBasedMap && ((UniverseBasedMap<? extends K, ? extends V>)m).subset == subset) {
+			Object[] otherValues = ((UniverseBasedMap<? extends K, ? extends V>)m).values;
 			for (int i = 0; i < subset.indexSize(); i++) {
 				@SuppressWarnings("unchecked")
 				V otherValue = (V)otherValues[i];
@@ -170,7 +169,7 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 	 */
 	@Override
 	public Set<K> keySet() {
-		return new SubSetLimitedMapKeySet<K, V>(this);
+		return new UniverseBasedMapKeySet<K, V>(this);
 	}
 
 	/**
@@ -180,7 +179,7 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 	 */
 	@Override
 	public Collection<V> values() {
-		return new SubSetLimitedMapValues<K, V>(this);
+		return new UniverseBasedMapValues<K, V>(this);
 	}
 
 	/**
@@ -189,7 +188,7 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 	 */
 	@Override
 	public Set<Map.Entry<K, V>> entrySet() {
-		return new SubSetLimitedMapEntrySet<K, V>(this);
+		return new UniverseBasedMapEntrySet<K, V>(this);
 	}
 	
 	/**
@@ -269,7 +268,7 @@ public class SubSetLimitedMap<K, V> implements Map<K, V> {
 		}
 	}
 	
-	IndexedSubset<K> getSubset() {
+	IndexedUniverse<K> getSubset() {
 		return subset;
 	}
 }

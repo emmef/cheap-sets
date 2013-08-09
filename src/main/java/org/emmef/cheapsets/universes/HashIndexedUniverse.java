@@ -6,18 +6,51 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.List;
 import java.util.Set;
 
-import org.emmef.cheapsets.IndexedSubset;
+import org.emmef.cheapsets.IndexFunction;
+import org.emmef.cheapsets.IndexedUniverse;
 import org.emmef.cheapsets.hash.HashFunction;
-import org.emmef.cheapsets.util.IndexedUniverseHelper;
 import org.emmef.cheapsets.util.PowerOfTwo;
 
-public class HashedArrayIndexedSubset<T> extends IndexFunctionIndexedUniverse<T> {
-	private HashedArrayIndexedSubset(Object[] hashedElementArray, HashIndexedFunction function, int elementCount) {
-		super(hashedElementArray, function, elementCount);
+public final class HashIndexedUniverse<T> implements IndexedUniverse<T> {
+	private final int elementCount;
+	private final Object[] universe;
+	private final int size;
+	private final IndexFunction indexFunction;
+
+	private HashIndexedUniverse(int elementCount, Object[] target, int size, IndexFunction indexFunction) {
+		this.elementCount = elementCount;
+		this.universe = target;
+		this.size = size;
+		this.indexFunction = indexFunction;
 	}
-	
+
+	@Override
+	public int indexOf(Object element) {
+		return indexFunction.indexOf(element);
+	}
+
+	@Override
+	public int indexSize() {
+		return size;
+	}
+
+	@Override
+	public T elementAt(int index) {
+		if (index < universe.length) {
+			@SuppressWarnings("unchecked")
+			T element = (T)universe[index];
+			return element;
+		}
+		throw new IndexOutOfBoundsException(index +  ">= " + universe.length);
+	}
+
+	@Override
+	public int size() {
+		return elementCount;
+	}
+
 	/**
-	 * Creates a hash-based {@link IndexedSubset} that contains all elements
+	 * Creates a hash-based {@link IndexedUniverse} that contains all elements
 	 * from {@code values} uniquely mapped to an index, or returns {@code null}
 	 * if that is not possible.
 	 * <p>
@@ -41,10 +74,10 @@ public class HashedArrayIndexedSubset<T> extends IndexFunctionIndexedUniverse<T>
 	 * @param powerShifts maximum allowed number of size doubles
 	 * @param hashFunctions list of hash functions to try for each size
 	 * 
-	 * @return a Hash-based {@link IndexedSubset} or <code>null</code> if that
+	 * @return a Hash-based {@link IndexedUniverse} or <code>null</code> if that
 	 *         is not possible.
 	 */
-	public static <T> IndexedSubset<T> createFrom(Set<T> values, int powerShifts, List<HashFunction> hashFunctions) {
+	public static <T> IndexedUniverse<T> createFrom(Set<T> values, int powerShifts, List<HashFunction> hashFunctions) {
 		checkNotNull(values, "values");
 		checkNotNull(hashFunctions, "hashFunctions");
 		checkArgument(powerShifts > 0, "Number of powershifts must be positive");
@@ -57,7 +90,7 @@ public class HashedArrayIndexedSubset<T> extends IndexFunctionIndexedUniverse<T>
 		checkArgument(elementCount > 0, "Indexed universe needs at least one element");
 		
 		if (elementCount == 1) {
-			return new SingleElementIndexedUniverse<T>(values.toArray()[0]);
+			return new SingleElementIndexedUniverse<T>((values.toArray()[0]));
 		}
 		
 		int size = PowerOfTwo.sameOrBigger(elementCount);
@@ -68,7 +101,7 @@ public class HashedArrayIndexedSubset<T> extends IndexFunctionIndexedUniverse<T>
 			for (int i = 0; i < hashFunctions.size(); i++) {
 				HashFunction hashFunction = hashFunctions.get(i);
 				if (mappedUniquelyInTarget(values, target, hashFunction)) {
-					return new HashedArrayIndexedSubset<T>(target, hashFunction.indexFunction(size), elementCount);
+					return new HashIndexedUniverse<T>(elementCount, target, size, hashFunction.indexFunction(size));
 				}
 				nullArray(target);
 			}
@@ -78,15 +111,27 @@ public class HashedArrayIndexedSubset<T> extends IndexFunctionIndexedUniverse<T>
 		
 		return null;
 	}
-	
-	public static <T> IndexedSubset<T> createFrom(Set<T> values, int powerShifts) {
-		return createFrom(values, powerShifts, HashFunction.DEFAULT_FUNCTIONS);
+
+	private static void nullArray(Object[] target) {
+		for (int i = 0; i < target.length; i++) {
+			target[i] = null;
+		}
 	}
-	
-	public static <T> IndexedSubset<T> createFrom(Set<T> values) {
-		return createFrom(values, 4, HashFunction.DEFAULT_FUNCTIONS);
+
+	private static <T> boolean mappedUniquelyInTarget(Set<T> values, Object[] target, HashFunction hashFunction) {
+		checkNotNull(hashFunction, "hashFunction");
+		int mask = target.length - 1;
+		for (T element : values) {
+			int hash = mask & hashFunction.hashCode(checkNotNull(element, IndexedUniverse.class.getSimpleName() + " cannot contain null elements"));
+			if (target[hash] != null) {
+				return false;
+			}
+			target[hash] = element;
+		}
+		
+		return true;
 	}
-	
+
 	private static int getMaxSize(int size, int maxShifts) {
 		int shifts = Math.min(maxShifts, 4);
 		long max = PowerOfTwo.MAX >> shifts;
@@ -96,25 +141,5 @@ public class HashedArrayIndexedSubset<T> extends IndexFunctionIndexedUniverse<T>
 		}
 		
 		return size << shifts;
-	}
-	
-	private static <T> boolean mappedUniquelyInTarget(Set<T> values, Object[] target, HashFunction hashFunction) {
-		checkNotNull(hashFunction, "hashFunction");
-		int mask = target.length - 1;
-		for (T element : values) {
-			int hash = mask & hashFunction.hashCode(IndexedUniverseHelper.checkElementNotNull(element));
-			if (target[hash] != null) {
-				return false;
-			}
-			target[hash] = element;
-		}
-		
-		return true;
-	}
-	
-	private static void nullArray(Object[] target) {
-		for (int i = 0; i < target.length; i++) {
-			target[i] = null;
-		}
 	}
 }

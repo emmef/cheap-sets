@@ -2,9 +2,9 @@ package org.emmef.cheapsets;
 
 import com.google.common.base.Objects;
 
-class SubSetLimitedMapValues<K, V> extends SubSetLimitedMapView<K, V, V, SubSetLimitedMapValues<K, V>> {
+class UniverseBasedMapValues<K, V> extends UniverseBasedMapView<K, V, V, UniverseBasedMapValues<K, V>> {
 
-	public SubSetLimitedMapValues(SubSetLimitedMap<K, V> map) {
+	public UniverseBasedMapValues(UniverseBasedMap<K, V> map) {
 		super(map);
 	}
 
@@ -39,18 +39,18 @@ class SubSetLimitedMapValues<K, V> extends SubSetLimitedMapView<K, V, V, SubSetL
 		if (obj == this) {
 			return true;
 		}
-		if (!(obj instanceof SubSetLimitedMapValues)) {
+		if (!(obj instanceof UniverseBasedMapValues)) {
 			return false;
 		}
 
-		SubSetLimitedMapValues<?,?> set = (SubSetLimitedMapValues<?,?>)obj;
+		UniverseBasedMapValues<?,?> set = (UniverseBasedMapValues<?,?>)obj;
 		
 		if (getSubSet() != set.getSubSet()) {
 			return false;
 		}
 		int indexSize = getSubSet().indexSize();
-		SubSetLimitedMap<K, V> myMap = getMap();
-		SubSetLimitedMap<?,?> otherMap = set.getMap();
+		UniverseBasedMap<K, V> myMap = getMap();
+		UniverseBasedMap<?,?> otherMap = set.getMap();
 		for (int i = 0; i < indexSize; i++) {
 			if (!Objects.equal(myMap.getAt(i), otherMap.getAt(i))) {
 				return false;
@@ -72,7 +72,7 @@ class SubSetLimitedMapValues<K, V> extends SubSetLimitedMapView<K, V, V, SubSetL
 	}
 
 	@Override
-	boolean modifyAllFromEquivalent(SubSetLimitedMapValues<K, V> equivalent, Modification modification) {
+	boolean modifyAllFromEquivalent(UniverseBasedMapValues<K, V> equivalent, Modification modification) {
 		switch (modification) {
 		case REMOVE:
 			return removeFromCollection(equivalent);

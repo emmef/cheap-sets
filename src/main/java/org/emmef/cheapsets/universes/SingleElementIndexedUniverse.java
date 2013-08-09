@@ -2,7 +2,9 @@ package org.emmef.cheapsets.universes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class SingleElementIndexedUniverse<T> extends AbstractIndexedSubset<T> {
+import org.emmef.cheapsets.IndexedUniverse;
+
+public class SingleElementIndexedUniverse<T> implements IndexedUniverse<T> {
 	Object element;
 
 	public SingleElementIndexedUniverse(Object element) {
@@ -32,5 +34,4 @@ public class SingleElementIndexedUniverse<T> extends AbstractIndexedSubset<T> {
 	public int size() {
 		return 1;
 	}
-
 }

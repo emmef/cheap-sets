@@ -7,7 +7,7 @@ public enum IndexType {
 	HASH, 
 	SORTED;
 	
-	public IndexedSubset<String> create(Set<String> universe) {
+	public IndexedUniverse<String> create(Set<String> universe) {
 		switch (this) {
 		case HASH:
 			return IndexedSubSets.createHashed(universe);

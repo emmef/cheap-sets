@@ -5,18 +5,18 @@ import java.util.Map.Entry;
 import com.google.common.base.Objects;
 
 /**
- * Entry object for the {@link SubSetLimitedMap}, that implements
+ * Entry object for the {@link UniverseBasedMap}, that implements
  * {@link #equals(Object)}, {@link #hashCode()} and {@link #toString()} contract
  * according to the specifications in {@link Entry}.
  * 
  * @see Entry
- * @see SubSetLimitedMap
+ * @see UniverseBasedMap
  */
-final class SubsetLimitedMapEntry<K, V> implements Entry<K, V> {
+final class UniverseBasedMapEntry<K, V> implements Entry<K, V> {
 	private final int index;
-	private final SubSetLimitedMap<K, V> map;
+	private final UniverseBasedMap<K, V> map;
 
-	SubsetLimitedMapEntry(SubSetLimitedMap<K, V> map, int index) {
+	UniverseBasedMapEntry(UniverseBasedMap<K, V> map, int index) {
 		this.map = map;
 		this.index = index;
 	}

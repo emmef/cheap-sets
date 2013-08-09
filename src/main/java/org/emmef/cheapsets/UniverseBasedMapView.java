@@ -9,12 +9,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-abstract class SubSetLimitedMapView<K, V, T, U extends SubSetLimitedMapView<K, V, ?, ?>> implements Collection<T> {
+abstract class UniverseBasedMapView<K, V, T, U extends UniverseBasedMapView<K, V, ?, ?>> implements Collection<T> {
 	enum Modification { REMOVE, RETAIN }
 	
-	private final SubSetLimitedMap<K, V> map;
+	private final UniverseBasedMap<K, V> map;
 
-	public SubSetLimitedMapView(SubSetLimitedMap<K, V> map) {
+	public UniverseBasedMapView(UniverseBasedMap<K, V> map) {
 		this.map = map;
 	}
 	
@@ -160,7 +160,7 @@ abstract class SubSetLimitedMapView<K, V, T, U extends SubSetLimitedMapView<K, V
 	}
 
 	private boolean sameErasedClassAndSubSet(Collection<?> c) {
-		return getClass().equals(c.getClass()) && getSubSet().equals(((SubSetLimitedMapView<?,?,?,?>)c).getSubSet());
+		return getClass().equals(c.getClass()) && getSubSet().equals(((UniverseBasedMapView<?,?,?,?>)c).getSubSet());
 	}
 
 	@Override
@@ -178,14 +178,14 @@ abstract class SubSetLimitedMapView<K, V, T, U extends SubSetLimitedMapView<K, V
 		return super.equals(obj);
 	}
 	
-	SubSetLimitedMap<K, V> getMap() {
+	UniverseBasedMap<K, V> getMap() {
 		return map;
 	}
 	
 	protected abstract T elementAt(int index);
 	abstract boolean modifyAllFromEquivalent(U equivalent, Modification modification);
 	
-	IndexedSubset<K> getSubSet() {
+	IndexedUniverse<K> getSubSet() {
 		return map.getSubset();
 	}
 	

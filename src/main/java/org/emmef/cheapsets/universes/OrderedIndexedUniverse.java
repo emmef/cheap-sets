@@ -5,10 +5,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Arrays;
 import java.util.Set;
 
-public final class OrderedIndexedSubSet<T extends Comparable<T>> extends AbstractIndexedSubset<T> {
+import org.emmef.cheapsets.IndexedUniverse;
+
+public final class OrderedIndexedUniverse<T extends Comparable<T>> implements IndexedUniverse<T> {
 	private final Object[] universe;
 
-	public OrderedIndexedSubSet(Set<T> universe) {
+	public OrderedIndexedUniverse(Set<T> universe) {
 		this.universe = checkNotNull(universe, "universe").toArray();
 		Arrays.sort(this.universe);
 		for (int i = 1; i < this.universe.length; i++) {

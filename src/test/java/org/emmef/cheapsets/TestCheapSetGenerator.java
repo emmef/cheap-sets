@@ -47,7 +47,7 @@ public final class TestCheapSetGenerator implements TestSetGenerator<String>, Te
 
 	@Override
 	public Set<String> create(Object... elements) {
-		SubsetLimitedSet<String> created = SubsetLimitedSet.create(indexType.create(UNIVERSE));
+		UniverseBasedSet<String> created = UniverseBasedSet.create(indexType.create(UNIVERSE));
 		
 		for (Object element : elements) {
 			created.add((String)element);
@@ -63,6 +63,6 @@ public final class TestCheapSetGenerator implements TestSetGenerator<String>, Te
 	
 	@Override
 	public String getName() {
-		return SubsetLimitedSet.class.getSimpleName() + "Test";
+		return UniverseBasedSet.class.getSimpleName() + "Test";
 	}
 }

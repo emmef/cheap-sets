@@ -4,7 +4,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Set;
 
-public class NaiveArrayUniverse<T> extends AbstractIndexedSubset<T> {
+import org.emmef.cheapsets.IndexedUniverse;
+
+public class NaiveArrayUniverse<T> implements IndexedUniverse<T> {
 	private final Object[] universe;
 
 	public NaiveArrayUniverse(Set<T> universe) {
@@ -35,11 +37,12 @@ public class NaiveArrayUniverse<T> extends AbstractIndexedSubset<T> {
 		return universe.length;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public T elementAt(int index) {
 		if (index < universe.length) {
-			return (T)universe[index];
+			@SuppressWarnings("unchecked")
+			T element = (T)universe[index];
+			return element;
 		}
 		throw new IndexOutOfBoundsException(index +  ">= " + universe.length);
 	}

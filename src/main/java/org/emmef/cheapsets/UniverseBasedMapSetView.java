@@ -2,9 +2,9 @@ package org.emmef.cheapsets;
 
 import java.util.Set;
 
-abstract class SubSetLimitedMapSetView<K, V, T, U extends SubSetLimitedMapSetView<K, V, T, ?>> extends SubSetLimitedMapView<K, V, T, U> implements Set<T>{
+abstract class UniverseBasedMapSetView<K, V, T, U extends UniverseBasedMapSetView<K, V, T, ?>> extends UniverseBasedMapView<K, V, T, U> implements Set<T>{
 
-	public SubSetLimitedMapSetView(SubSetLimitedMap<K, V> map) {
+	public UniverseBasedMapSetView(UniverseBasedMap<K, V> map) {
 		super(map);
 	}
 	/**

@@ -58,7 +58,7 @@ public final class TestCheapMapGenerator implements TestMapGenerator<String, Str
 
 	@Override
 	public Map<String, String> create(Object... elements) {
-		SubSetLimitedMap<String, String> created = new SubSetLimitedMap<String,String>(indexType.create(UNIVERSE));
+		UniverseBasedMap<String, String> created = new UniverseBasedMap<String,String>(indexType.create(UNIVERSE));
 		for (Object element : elements) {
 			@SuppressWarnings("unchecked")
 			Entry<String,String> entry = (Entry<String,String>)element;
@@ -75,7 +75,7 @@ public final class TestCheapMapGenerator implements TestMapGenerator<String, Str
 	
 	@Override
 	public String getName() {
-		return SubSetLimitedMap.class.getSimpleName() + "Test";
+		return UniverseBasedMap.class.getSimpleName() + "Test";
 	}
 
 	@Override

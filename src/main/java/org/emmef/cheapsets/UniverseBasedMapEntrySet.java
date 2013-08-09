@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.google.common.base.Objects;
 
-public class SubSetLimitedMapEntrySet<K, V> extends SubSetLimitedMapSetView<K, V, Map.Entry<K, V>, SubSetLimitedMapEntrySet<K, V>> {
-	public SubSetLimitedMapEntrySet(SubSetLimitedMap<K, V> map) {
+class UniverseBasedMapEntrySet<K, V> extends UniverseBasedMapSetView<K, V, Map.Entry<K, V>, UniverseBasedMapEntrySet<K, V>> {
+	public UniverseBasedMapEntrySet(UniverseBasedMap<K, V> map) {
 		super(map);
 	}
 	
@@ -22,7 +22,7 @@ public class SubSetLimitedMapEntrySet<K, V> extends SubSetLimitedMapSetView<K, V
 
 	@Override
 	protected java.util.Map.Entry<K, V> elementAt(final int index) {
-		return getMap().getAt(index) != null ? new SubsetLimitedMapEntry<K, V>(getMap(), index) : null;
+		return getMap().getAt(index) != null ? new UniverseBasedMapEntry<K, V>(getMap(), index) : null;
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class SubSetLimitedMapEntrySet<K, V> extends SubSetLimitedMapSetView<K, V
 	}
 
 	@Override
-	boolean modifyAllFromEquivalent(SubSetLimitedMapEntrySet<K, V> equivalent, Modification modification) {
+	boolean modifyAllFromEquivalent(UniverseBasedMapEntrySet<K, V> equivalent, Modification modification) {
 		boolean modified = false;
 		int indexSize = getSubSet().indexSize();
 		

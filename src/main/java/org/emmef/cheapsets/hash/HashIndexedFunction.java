@@ -1,14 +1,12 @@
-package org.emmef.cheapsets.universes;
+package org.emmef.cheapsets.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.emmef.cheapsets.IndexFunction;
-import org.emmef.cheapsets.hash.HashFunction;
 
 
-public final class HashIndexedFunction implements IndexFunction {
-
+final class HashIndexedFunction implements IndexFunction {
 	private final HashFunction hashFunction;
 	private final int mask;
 	private final int size;

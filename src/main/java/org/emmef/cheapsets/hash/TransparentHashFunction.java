@@ -1,6 +1,6 @@
 package org.emmef.cheapsets.hash;
 
-import org.emmef.cheapsets.universes.HashIndexedFunction;
+import org.emmef.cheapsets.IndexFunction;
 
 /**
  * Hash function that echoes the hash code of the element. 
@@ -15,10 +15,8 @@ public enum TransparentHashFunction implements HashFunction {
 		return element != null ? element.hashCode() : 0;
 	}
 	
-	private static final HashIndexFunctionSet SET = new HashIndexFunctionSet(INSTANCE);
-	
 	@Override
-	public HashIndexedFunction indexFunction(int size) {
-		return SET.getIndexFunction(size);
+	public IndexFunction indexFunction(int size) {
+		return new HashIndexedFunction(size, this);
 	}
 }

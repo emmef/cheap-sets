@@ -1,8 +1,8 @@
 package org.emmef.cheapsets;
 
 
-class SubSetLimitedMapKeySet<K, V> extends SubSetLimitedMapSetView<K, V, K, SubSetLimitedMapKeySet<K, V>> {
-	public SubSetLimitedMapKeySet(SubSetLimitedMap<K, V> map) {
+class UniverseBasedMapKeySet<K, V> extends UniverseBasedMapSetView<K, V, K, UniverseBasedMapKeySet<K, V>> {
+	public UniverseBasedMapKeySet(UniverseBasedMap<K, V> map) {
 		super(map);
 	}
 
@@ -25,7 +25,7 @@ class SubSetLimitedMapKeySet<K, V> extends SubSetLimitedMapSetView<K, V, K, SubS
 	}
 
 	@Override
-	boolean modifyAllFromEquivalent(SubSetLimitedMapKeySet<K, V> equivalent, Modification modification) {
+	boolean modifyAllFromEquivalent(UniverseBasedMapKeySet<K, V> equivalent, Modification modification) {
 		boolean modified = false;
 		int indexSize = getMap().getSubset().indexSize();
 		switch (modification) {

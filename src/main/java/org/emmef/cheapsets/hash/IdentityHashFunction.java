@@ -1,6 +1,6 @@
 package org.emmef.cheapsets.hash;
 
-import org.emmef.cheapsets.universes.HashIndexedFunction;
+import org.emmef.cheapsets.IndexFunction;
 
 /**
  * A hash function that returns the system identity hash for the object.
@@ -19,10 +19,8 @@ public enum IdentityHashFunction implements HashFunction {
 		return System.identityHashCode(element);
 	}
 	
-	private static final HashIndexFunctionSet SET = new HashIndexFunctionSet(INSTANCE);
-	
 	@Override
-	public HashIndexedFunction indexFunction(int size) {
-		return SET.getIndexFunction(size);
+	public IndexFunction indexFunction(int size) {
+		return new HashIndexedFunction(size, this);
 	}
 }

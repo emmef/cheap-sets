@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet<E> {
-	private final IndexedSubset<E> universe;
+class DefaultUniverseBasedSet<E, S extends IndexSet<S>> extends UniverseBasedSet<E> {
+	private final IndexedUniverse<E> universe;
 	private final S indexSet; 
 	
-	DefaultSubsetLimitedSet(IndexedSubset<E> universe, S indexSet) {
+	DefaultUniverseBasedSet(IndexedUniverse<E> universe, S indexSet) {
 		this.universe = checkNotNull(universe, "universe");
 		this.indexSet = indexSet;
 	}
@@ -143,8 +143,8 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		if (c instanceof DefaultSubsetLimitedSet && ((DefaultSubsetLimitedSet<?, ?>) c).universe == universe) {
-			return indexSet.containsAll(((DefaultSubsetLimitedSet<?, S>) c).indexSet);
+		if (c instanceof DefaultUniverseBasedSet && ((DefaultUniverseBasedSet<?, ?>) c).universe == universe) {
+			return indexSet.containsAll(((DefaultUniverseBasedSet<?, S>) c).indexSet);
 		}
 		if (c instanceof List) {
 			List<?> list = (List<?>) c;
@@ -169,8 +169,8 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean addAll(Collection<? extends E> c) {
-		if (c instanceof DefaultSubsetLimitedSet && ((DefaultSubsetLimitedSet<?, ?>) c).universe == universe) {
-			return indexSet.addAll(((DefaultSubsetLimitedSet<?, S>) c).indexSet);
+		if (c instanceof DefaultUniverseBasedSet && ((DefaultUniverseBasedSet<?, ?>) c).universe == universe) {
+			return indexSet.addAll(((DefaultUniverseBasedSet<?, S>) c).indexSet);
 		}
 		boolean changed = false;
 		if (c instanceof List) {
@@ -192,8 +192,8 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		if (c instanceof DefaultSubsetLimitedSet && ((DefaultSubsetLimitedSet<?, ?>) c).universe == universe) {
-			return indexSet.retainAll(((DefaultSubsetLimitedSet<?, S>) c).indexSet);
+		if (c instanceof DefaultUniverseBasedSet && ((DefaultUniverseBasedSet<?, ?>) c).universe == universe) {
+			return indexSet.retainAll(((DefaultUniverseBasedSet<?, S>) c).indexSet);
 		}
 		boolean changed = false;
 		for (int i = 0; i < universe.indexSize(); i++) {
@@ -209,8 +209,8 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		if (c instanceof DefaultSubsetLimitedSet && ((DefaultSubsetLimitedSet<?, ?>) c).universe == universe) {
-			return indexSet.removeAll(((DefaultSubsetLimitedSet<?, S>) c).indexSet);
+		if (c instanceof DefaultUniverseBasedSet && ((DefaultUniverseBasedSet<?, ?>) c).universe == universe) {
+			return indexSet.removeAll(((DefaultUniverseBasedSet<?, S>) c).indexSet);
 		}
 		boolean changed = false;
 		if (c instanceof List) {
@@ -241,13 +241,13 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 	}
 
 	@Override
-	public DefaultSubsetLimitedSet<E, S> clone() {
-		return new DefaultSubsetLimitedSet<E, S>(universe, indexSet.clone());
+	public DefaultUniverseBasedSet<E, S> clone() {
+		return new DefaultUniverseBasedSet<E, S>(universe, indexSet.clone());
 	}
 	
 	@Override
-	public DefaultSubsetLimitedSet<E, S> cloneEmpty() {
-		return new DefaultSubsetLimitedSet<E, S>(universe, indexSet.cloneEmpty());
+	public DefaultUniverseBasedSet<E, S> cloneEmpty() {
+		return new DefaultUniverseBasedSet<E, S>(universe, indexSet.cloneEmpty());
 	}
 	
 	public int hashCode() {
@@ -307,7 +307,7 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 	};
 	
 	@Override
-	public final IndexedSubset<E> subSet() {
+	public final IndexedUniverse<E> subSet() {
 		return universe;
 	}
 	
@@ -318,7 +318,7 @@ class DefaultSubsetLimitedSet<E, S extends IndexSet<S>> extends SubsetLimitedSet
 			return indexOf;
 		}
 		
-		throw new ElementNotInSubsetException("Element is not backed by " + IndexedSubset.class.getSimpleName() + ": " + element);
+		throw new ElementNotInUniverseException("Element is not backed by " + IndexedUniverse.class.getSimpleName() + ": " + element);
 	}
 
 }
