@@ -19,12 +19,7 @@ class MiniIndexSet implements IndexSet<MiniIndexSet> {
 	
 	@Override
 	public int count() {
-		return Long.bitCount(present);
-	}
-	
-	@Override
-	public int bound() {
-		return 32;
+		return Integer.bitCount(present);
 	}
 	
 	@Override

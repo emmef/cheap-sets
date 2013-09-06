@@ -33,11 +33,6 @@ class JumboIndexSet implements IndexSet<JumboIndexSet> {
 	}
 	
 	@Override
-	public int bound() {
-		return 64 * present.length;
-	}
-	
-	@Override
 	public boolean isEmpty() {
 		for (int i = 0; i < present.length; i++) {
 			if (present[i] != 0) {

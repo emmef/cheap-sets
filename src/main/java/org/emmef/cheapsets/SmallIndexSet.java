@@ -23,11 +23,6 @@ class SmallIndexSet implements IndexSet<SmallIndexSet> {
 	}
 	
 	@Override
-	public int bound() {
-		return 64;
-	}
-	
-	@Override
 	public boolean isEmpty() {
 		return present == 0;
 	}

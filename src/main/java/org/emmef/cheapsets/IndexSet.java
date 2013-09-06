@@ -3,7 +3,7 @@ package org.emmef.cheapsets;
 import java.util.Set;
 
 /**
- * Registers the presence of elements at a limited set of indices.
+ * Registers the presence of elements at a bounded set of indices.
  * <p>
  * The indices are limited between 0 (inclusive) and the result of
  * {@link #bound()} (exclusive).
@@ -26,17 +26,6 @@ interface IndexSet<T extends IndexSet<?>> extends Cloneable {
 	 * @documented 2013-07-26
 	 */
 	int count();
-	
-	/**
-	 * Returns the positive index bound.
-	 * <p>
-	 * Allowed indices for this set are between 0 (inclusive) and bound
-	 * (exclusive).
-	 * 
-	 * @return a positive integer.
-	 * @documented 2013-07-26
-	 */
-	int bound();
 	
 	/**
 	 * Returns whether the set is empty.
@@ -122,7 +111,7 @@ interface IndexSet<T extends IndexSet<?>> extends Cloneable {
 	void clear();
 	
 	/**
-	 * Create a new index set that has the same index bound ({@link #bound()} as this 
+	 * Create a new index set that has the same size as this 
 	 *     set, but has no elements present {@code (}{@link #count()}{@code == 0)}.
 	 * 
 	 * @return a {@code non-null} {@link IndexSet}
@@ -131,7 +120,7 @@ interface IndexSet<T extends IndexSet<?>> extends Cloneable {
 	T cloneEmpty();
 	
 	/**
-	 * Create a new index set that has the same index bound ({@link #bound()} as this 
+	 * Create a new index set that has the same size as this 
 	 *     set and has the same elements present.
 	 * 
 	 * @return a {@code non-null} {@link IndexSet}

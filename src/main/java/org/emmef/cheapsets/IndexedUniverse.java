@@ -6,7 +6,7 @@ package org.emmef.cheapsets;
  * The index of an element can be larger than the number of elements in the 
  * universe, as indices don't have to be consecutive. For example, universes 
  * that are based on hashing generally have a fill-grade and leave gaps 
- * between the indices. 
+ * between the indices.
  * 
  * @param <T> element type
  * 
