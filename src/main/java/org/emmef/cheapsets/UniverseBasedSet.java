@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
+import org.emmef.cheapsets.universes.IndexedUniverses;
 /**
  * Creates a set, whose members are limited to those in an {@link IndexedUniverse}.
  * <p>
@@ -21,7 +23,7 @@ import java.util.Set;
  */
 public class UniverseBasedSet<E> implements Set<E>, Cloneable {
 	private final IndexedUniverse<E> universe;
-	private final IndexSet indexSet; 
+	private final IndexSet indexSet;
 	
 	UniverseBasedSet(IndexedUniverse<E> universe, IndexSet indexSet) {
 		this.universe = checkNotNull(universe, "universe");
@@ -41,6 +43,23 @@ public class UniverseBasedSet<E> implements Set<E>, Cloneable {
 	public UniverseBasedSet(IndexedUniverse<E> universe) {
 		this.universe = checkNotNull(universe, "universe");
 		this.indexSet = IndexSet.Build.emptyFor(universe);
+	}
+	
+	/**
+	 * Creates a new {@link UniverseBasedSet} that is based on the provided universe of values.
+	 * <p>
+	 * The set doesn't contain any elements yet: use {@link #add(Object)} or 
+	 * {@link #addAll(Collection)} to add them.
+	 * <p>
+	 * This implementation uses a default strategy to decide what type of indexed universe
+	 * will be used by the set (see {@link IndexedUniverses#create(Set)}.
+	 * 
+	 * @param subset subset to use as a base for this set.
+	 * @return a new, {@code non-null} {@link UniverseBasedSet}
+	 * @throws NullPointerException if the subset is {@code null}.
+	 */
+	public UniverseBasedSet(Set<E> universe) {
+		this(createIndexedUniverse(universe));
 	}
 	
 	/**
@@ -354,5 +373,15 @@ public class UniverseBasedSet<E> implements Set<E>, Cloneable {
 		}
 		
 		throw new ElementNotInUniverseException("Element is not backed by " + IndexedUniverse.class.getSimpleName() + ": " + element);
+	}
+	
+	private static <E> IndexedUniverse<E> createIndexedUniverse(Set<E> universe) {
+		checkNotNull(universe, "universe");
+		
+		if (universe instanceof UniverseBasedSet) {
+			return ((UniverseBasedSet<E>)universe).subSet();
+		}
+		
+		return IndexedUniverses.create(universe);
 	}
 }

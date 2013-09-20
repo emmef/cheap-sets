@@ -7,10 +7,10 @@ import java.util.Set;
 
 import org.emmef.cheapsets.IndexedUniverse;
 
-public final class OrderedIndexedUniverse<T extends Comparable<T>> implements IndexedUniverse<T> {
+public final class SortedIndexedUniverse<T extends Comparable<T>> implements IndexedUniverse<T> {
 	private final Object[] universe;
 
-	public OrderedIndexedUniverse(Set<T> universe) {
+	public SortedIndexedUniverse(Set<T> universe) {
 		this.universe = checkNotNull(universe, "universe").toArray();
 		Arrays.sort(this.universe);
 		for (int i = 1; i < this.universe.length; i++) {
