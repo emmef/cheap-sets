@@ -1,6 +1,6 @@
 package org.emmef.cheapsets;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
 import java.util.List;
@@ -75,7 +75,7 @@ public final class TestCheapMapGenerator implements TestMapGenerator<String, Str
 	
 	@Override
 	public String getName() {
-		return UniverseBasedMap.class.getSimpleName() + "Test";
+		return UniverseBasedMap.class.getSimpleName() + "Test; index-type=" + indexType;
 	}
 
 	@Override

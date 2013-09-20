@@ -70,6 +70,12 @@ public class IndexedSubSets {
 		
 		return new OrderedIndexedUniverse<>(universe);
 	}
+	
+
+	public static IndexedUniverse<String> createNaive(Set<String> universe) {
+		return new NaiveArrayUniverse<>(universe);
+	}
+	
 
 	public static <E> IndexedUniverse<E> createHashed(Set<E> universe) {
 		IndexedUniverse<E> idempotent = getIdempotentFromNotNull(universe);

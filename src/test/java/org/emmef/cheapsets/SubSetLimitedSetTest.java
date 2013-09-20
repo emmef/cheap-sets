@@ -1,22 +1,39 @@
 package org.emmef.cheapsets;
 
+import java.util.Enumeration;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.AllTests;
-
-import junit.framework.TestSuite;
 
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 
 @RunWith(AllTests.class)
 public class SubSetLimitedSetTest {
-	private static final TestCheapSetGenerator GENERATOR = new TestCheapSetGenerator(IndexType.AUTO);
-	
-	private static final TestSuite GENERATED_SUITE = SetTestSuiteBuilder.using(GENERATOR)
-			.named(GENERATOR.getName())
-			.withFeatures(GENERATOR.features())
-			.createTestSuite();
+	private static final TestSuite GENERATED_SUITE = generateTestSuiteForAllIndexTypes();
 
 	public static TestSuite suite() {
 		return GENERATED_SUITE;
+	}
+	private static TestSuite generateTestSuiteForAllIndexTypes() {
+		TestSuite generatedSuite = new TestSuite(SubSetLimitedSetTest.class.getSimpleName());
+		
+		for (IndexType type : IndexType.values()) {
+			TestCheapSetGenerator generator = new TestCheapSetGenerator(type);
+			
+			TestSuite singleSuite = SetTestSuiteBuilder.using(generator)
+					.named(generator.getName())
+					.withFeatures(generator.features())
+					.createTestSuite();
+			
+			Enumeration<Test> tests = singleSuite.tests();
+			
+			while (tests.hasMoreElements()) {
+				generatedSuite.addTest(tests.nextElement());
+			}
+		}
+		return generatedSuite;
 	}
 }

@@ -63,6 +63,6 @@ public final class TestCheapSetGenerator implements TestSetGenerator<String>, Te
 	
 	@Override
 	public String getName() {
-		return UniverseBasedSet.class.getSimpleName() + "Test";
+		return UniverseBasedSet.class.getSimpleName() + "Test; index-type=" + indexType;
 	}
 }

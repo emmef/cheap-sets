@@ -4,8 +4,9 @@ import java.util.Set;
 
 public enum IndexType {
 	AUTO, 
-	HASH, 
-	SORTED;
+	HASH,
+	SORTED,
+	NAIVE;
 	
 	public IndexedUniverse<String> create(Set<String> universe) {
 		switch (this) {
@@ -13,6 +14,8 @@ public enum IndexType {
 			return IndexedSubSets.createHashed(universe);
 		case SORTED:
 			return IndexedSubSets.createSorted(universe);
+		case NAIVE:
+			return IndexedSubSets.createNaive(universe);
 		case AUTO:
 		default:
 			return IndexedSubSets.create(universe);
