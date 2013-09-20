@@ -51,7 +51,7 @@ public class UniverseBasedMap<K, V> implements Map<K, V> {
 			this.values = slm.values.clone();
 		}
 		else {
-			this.subset = IndexedSubSets.create(map.keySet());
+			this.subset = IndexedUniverses.create(map.keySet());
 			this.values = new Object[this.subset.indexBoundary()];
 			this.size = 0;
 			putAll(map);

@@ -7,26 +7,27 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.emmef.cheapsets.hash.HashFunction;
-import org.emmef.cheapsets.universes.HashIndexedUniverse;
+import org.emmef.cheapsets.universes.HashedUniverseCreator;
 import org.emmef.cheapsets.universes.MapIndexedUniverse;
 import org.emmef.cheapsets.universes.NaiveArrayUniverse;
+import org.emmef.cheapsets.universes.NaiveUniverseCreator;
 import org.emmef.cheapsets.universes.OrderedIndexedUniverse;
 
 import com.google.common.collect.ImmutableList;
 
-public class IndexedSubSets {
-	public static final int DEFAULT_NAIVE_THRESHOLD = 10;
-	
+public class IndexedUniverses {
 	public static Stats createStats() {
 		return new Stats();
 	}
+	
+	
 
 	/**
 	 * Creates an indexed subset based on the given universe.
 	 * <p>
 	 * A best-effort will be used to create a set that isn't too big or to slow:
 	 * <ul>
-	 * <li>If the set is smaller than {@link #DEFAULT_NAIVE_THRESHOLD}, a  
+	 * <li>If the set is smaller than {@link NaiveUniverseCreator#DEFAULT_NAIVE_THRESHOLD}, a  
 	 * 
 	 * @param universe
 	 * @return
@@ -38,7 +39,7 @@ public class IndexedSubSets {
 			return idempotent;
 		}
 		
-		return createSubSet(universe, HashFunction.DEFAULT_FUNCTIONS, DEFAULT_NAIVE_THRESHOLD);
+		return createSubSet(universe, HashFunction.DEFAULT_FUNCTIONS, NaiveUniverseCreator.DEFAULT_NAIVE_THRESHOLD);
 	}
 	
 	public static <E> IndexedUniverse<E> create(Set<E> universe, List<HashFunction> hashFunctions, int naiveThreshold) {
@@ -58,7 +59,7 @@ public class IndexedSubSets {
 		if (idempotent != null) {
 			return idempotent;
 		}
-		return createSubSet(universe, ImmutableList.<HashFunction>of(), DEFAULT_NAIVE_THRESHOLD);
+		return createSubSet(universe, ImmutableList.<HashFunction>of(), NaiveUniverseCreator.DEFAULT_NAIVE_THRESHOLD);
 	}
 	
 	public static <E extends Comparable<E>> IndexedUniverse<E> createSorted(Set<E> universe) {
@@ -99,7 +100,7 @@ public class IndexedSubSets {
 	}
 	
 	private static <E> IndexedUniverse<E> createHashedSubSet(Set<E> universe, List<HashFunction> hashFunctions) {
-		IndexedUniverse<E> hashedUniverse = HashIndexedUniverse.createFrom(universe, 4, hashFunctions);
+		IndexedUniverse<E> hashedUniverse = HashedUniverseCreator.createFrom(universe, 4, hashFunctions);
 		
 		if (hashedUniverse != null) {
 			Stats.addHashBased();
@@ -116,7 +117,7 @@ public class IndexedSubSets {
 		}
 		
 		if (hashFunctions != null && !hashFunctions.isEmpty()) {
-			IndexedUniverse<E> hashedUniverse = HashIndexedUniverse.createFrom(set, 4, hashFunctions);
+			IndexedUniverse<E> hashedUniverse = HashedUniverseCreator.createFrom(set, 4, hashFunctions);
 			if (hashedUniverse != null) {
 				Stats.addHashBased();
 				return hashedUniverse;
@@ -153,7 +154,7 @@ public class IndexedSubSets {
 	}
 
 	public static class Stats {
-		private static final boolean useStats = Boolean.valueOf(System.getProperty(IndexedSubSets.class.getName().toLowerCase() + ".enable-stats"));  
+		private static final boolean useStats = Boolean.valueOf(System.getProperty(IndexedUniverses.class.getName().toLowerCase() + ".enable-stats"));  
 		private static final AtomicInteger hashBasedFrequency = new AtomicInteger();
 		private static final AtomicInteger naiveFrequency = new AtomicInteger();
 		private static final AtomicInteger mapBasedFrequency = new AtomicInteger();

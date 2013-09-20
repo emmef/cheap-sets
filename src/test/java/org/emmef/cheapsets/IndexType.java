@@ -11,14 +11,14 @@ public enum IndexType {
 	public IndexedUniverse<String> create(Set<String> universe) {
 		switch (this) {
 		case HASH:
-			return IndexedSubSets.createHashed(universe);
+			return IndexedUniverses.createHashed(universe);
 		case SORTED:
-			return IndexedSubSets.createSorted(universe);
+			return IndexedUniverses.createSorted(universe);
 		case NAIVE:
-			return IndexedSubSets.createNaive(universe);
+			return IndexedUniverses.createNaive(universe);
 		case AUTO:
 		default:
-			return IndexedSubSets.create(universe);
+			return IndexedUniverses.create(universe);
 		}
 	}
 }
