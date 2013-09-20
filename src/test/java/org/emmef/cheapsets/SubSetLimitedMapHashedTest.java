@@ -8,8 +8,8 @@ import org.junit.runners.AllTests;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 
 @RunWith(AllTests.class)
-public class SubSetLimitedMapTestSuiteSorted {
-	private static final TestCheapMapGenerator GENERATOR = new TestCheapMapGenerator(IndexType.SORTED);
+public class SubSetLimitedMapHashedTest {
+	private static final TestCheapMapGenerator GENERATOR = new TestCheapMapGenerator(IndexType.HASH);
 	
 	private static final TestSuite GENERATED_SUITE = MapTestSuiteBuilder.using(GENERATOR)
 			.named(GENERATOR.getName())

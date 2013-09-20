@@ -8,7 +8,7 @@ import junit.framework.TestSuite;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 
 @RunWith(AllTests.class)
-public class SubSetLimitedSetTestSuiteHashed {
+public class SubSetLimitedSetHashedTest {
 	private static final TestCheapSetGenerator GENERATOR = new TestCheapSetGenerator(IndexType.HASH);
 	
 	private static final TestSuite GENERATED_SUITE = SetTestSuiteBuilder.using(GENERATOR)

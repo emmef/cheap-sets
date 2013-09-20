@@ -8,8 +8,8 @@ import junit.framework.TestSuite;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 
 @RunWith(AllTests.class)
-public class SubSetLimitedSetTestSuite {
-	private static final TestCheapSetGenerator GENERATOR = new TestCheapSetGenerator(IndexType.AUTO);
+public class SubSetLimitedSetSortedTest {
+	private static final TestCheapSetGenerator GENERATOR = new TestCheapSetGenerator(IndexType.SORTED);
 	
 	private static final TestSuite GENERATED_SUITE = SetTestSuiteBuilder.using(GENERATOR)
 			.named(GENERATOR.getName())
