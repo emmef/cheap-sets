@@ -15,7 +15,7 @@ import java.util.Set;
  * 
  * @documented 2013-07-26
  */
-interface IndexSet extends Cloneable {
+public interface IndexSet extends Cloneable {
 	/**
 	 * Returns the number of elements that are currently present in the index.
 	 * <p>
@@ -131,26 +131,4 @@ interface IndexSet extends Cloneable {
 	 * @documented 2013-07-26
 	 */
 	IndexSet clone();
-	
-	class Build {
-		public static IndexSet emptyFor(IndexedUniverse<?> universe) {
-			int bounday = universe.indexBoundary();
-			if (bounday <= 32) {
-				return new MiniIndexSet();
-			}
-			if (bounday  <= 64) {
-				return new SmallIndexSet();
-			}
-			
-			return new JumboIndexSet(bounday);
-		}
-		
-		public static IndexSet clone(IndexSet set) {
-			return set.clone();
-		}
-		
-		public static IndexSet cloneEmpty(IndexSet set) {
-			return set.cloneEmpty();
-		}
-	}
 }

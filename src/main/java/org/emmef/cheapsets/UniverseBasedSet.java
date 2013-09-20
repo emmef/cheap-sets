@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import org.emmef.cheapsets.indexsets.IndexSetBuilder;
 import org.emmef.cheapsets.universes.IndexedUniverses;
 /**
  * Creates a set, whose members are limited to those in an {@link IndexedUniverse}.
@@ -42,7 +43,7 @@ public class UniverseBasedSet<E> implements Set<E>, Cloneable {
 	 */
 	public UniverseBasedSet(IndexedUniverse<E> universe) {
 		this.universe = checkNotNull(universe, "universe");
-		this.indexSet = IndexSet.Build.emptyFor(universe);
+		this.indexSet = IndexSetBuilder.emptyFor(universe);
 	}
 	
 	/**

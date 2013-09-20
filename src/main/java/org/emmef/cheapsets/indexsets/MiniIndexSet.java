@@ -1,25 +1,27 @@
-package org.emmef.cheapsets;
+package org.emmef.cheapsets.indexsets;
+
+import org.emmef.cheapsets.IndexSet;
 
 /**
- * Implementation of {@link IndexSet} that has a bound of 64,
- * and thus supports indices between 0 and 63.
+ * Implementation of {@link IndexSet} that has a bound of 32,
+ * and thus supports indices between 0 and 31.
  * 
  * @documented 2013-07-26
  */
-class SmallIndexSet implements IndexSet {
-	private long present;
+class MiniIndexSet implements IndexSet {
+	private int present;
 
-	private SmallIndexSet(long present) {
+	private MiniIndexSet(int present) {
 		this.present = present;
 	}
-	
-	SmallIndexSet() {
+
+	MiniIndexSet() {
 		this(0);
 	}
-
+	
 	@Override
 	public int count() {
-		return Long.bitCount(present);
+		return Integer.bitCount(present);
 	}
 	
 	@Override
@@ -48,13 +50,13 @@ class SmallIndexSet implements IndexSet {
 
 	@Override
 	public boolean containsAll(IndexSet indexSet) {
-		SmallIndexSet set = (SmallIndexSet)indexSet;
+		MiniIndexSet set = (MiniIndexSet)indexSet;
 		return (set.present & present) == set.present;
 	}
 
 	@Override
 	public boolean addAll(IndexSet indexSet) {
-		SmallIndexSet set = (SmallIndexSet)indexSet;
+		MiniIndexSet set = (MiniIndexSet)indexSet;
 		long old = present;
 		present |= set.present;
 		return old != present;
@@ -62,7 +64,7 @@ class SmallIndexSet implements IndexSet {
 
 	@Override
 	public boolean retainAll(IndexSet indexSet) {
-		SmallIndexSet set = (SmallIndexSet)indexSet;
+		MiniIndexSet set = (MiniIndexSet)indexSet;
 		long old = present;
 		present &= set.present;
 		return old != present;
@@ -70,7 +72,7 @@ class SmallIndexSet implements IndexSet {
 
 	@Override
 	public boolean removeAll(IndexSet indexSet) {
-		SmallIndexSet set = (SmallIndexSet)indexSet;
+		MiniIndexSet set = (MiniIndexSet)indexSet;
 		long old = present;
 		present &= -1L ^ set.present;
 		return old != present;
@@ -82,13 +84,13 @@ class SmallIndexSet implements IndexSet {
 	}
 
 	@Override
-	public SmallIndexSet cloneEmpty() {
-		return new SmallIndexSet(0);
+	public MiniIndexSet cloneEmpty() {
+		return new MiniIndexSet(0);
 	}
 	
 	@Override
-	public SmallIndexSet clone() {
-		return new SmallIndexSet(present);
+	public MiniIndexSet clone() {
+		return new MiniIndexSet(present);
 	}
 
 }

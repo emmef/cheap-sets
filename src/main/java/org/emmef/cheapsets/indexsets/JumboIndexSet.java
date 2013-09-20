@@ -1,4 +1,6 @@
-package org.emmef.cheapsets;
+package org.emmef.cheapsets.indexsets;
+
+import org.emmef.cheapsets.IndexSet;
 
 /**
  * Implementation of {@link IndexSet} that has a bound that is 
