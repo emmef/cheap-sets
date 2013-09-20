@@ -2,6 +2,8 @@ package org.emmef.cheapsets;
 
 import java.util.Set;
 
+import org.emmef.cheapsets.universes.IndexedUniverses;
+
 public enum IndexType {
 	AUTO, 
 	HASH,

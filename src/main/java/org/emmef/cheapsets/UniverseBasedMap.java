@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import org.emmef.cheapsets.universes.IndexedUniverses;
+
 /**
  * Maps keys inside an {@link IndexedUniverse} to values.
  * <p>
