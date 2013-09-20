@@ -12,9 +12,8 @@ import com.google.common.collect.testing.MapTestSuiteBuilder;
 
 @RunWith(AllTests.class)
 public class SubSetLimitedMapTest {
-	private static final TestSuite GENERATED_SUITE = generateTestSuiteForAllIndexTypes();
 	
-	private static TestSuite generateTestSuiteForAllIndexTypes() {
+	public static TestSuite suite() {
 		TestSuite generatedSuite = new TestSuite(SubSetLimitedMapTest.class.getSimpleName());
 		
 		for (IndexType type : IndexType.values()) {
@@ -32,10 +31,5 @@ public class SubSetLimitedMapTest {
 			}
 		}
 		return generatedSuite;
-	}
-	
-
-	public static TestSuite suite() {
-		return GENERATED_SUITE;
 	}
 }

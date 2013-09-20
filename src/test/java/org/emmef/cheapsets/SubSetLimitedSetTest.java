@@ -12,12 +12,8 @@ import com.google.common.collect.testing.SetTestSuiteBuilder;
 
 @RunWith(AllTests.class)
 public class SubSetLimitedSetTest {
-	private static final TestSuite GENERATED_SUITE = generateTestSuiteForAllIndexTypes();
 
 	public static TestSuite suite() {
-		return GENERATED_SUITE;
-	}
-	private static TestSuite generateTestSuiteForAllIndexTypes() {
 		TestSuite generatedSuite = new TestSuite(SubSetLimitedSetTest.class.getSimpleName());
 		
 		for (IndexType type : IndexType.values()) {
