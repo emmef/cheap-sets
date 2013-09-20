@@ -7,7 +7,7 @@ package org.emmef.cheapsets;
  * 
  * @documented 2013-07-26
  */
-class JumboIndexSet implements IndexSet<JumboIndexSet> {
+class JumboIndexSet implements IndexSet {
 	private final long[] present;
 
 	private JumboIndexSet(long[] present) {
@@ -80,7 +80,8 @@ class JumboIndexSet implements IndexSet<JumboIndexSet> {
 	}
 
 	@Override
-	public boolean containsAll(JumboIndexSet set) {
+	public boolean containsAll(IndexSet indexSet) {
+		JumboIndexSet set = (JumboIndexSet)indexSet;
 		checkJumboArgument(set);
 		for (int i = 0; i < present.length; i++) {
 			long other = set.present[i];
@@ -93,7 +94,8 @@ class JumboIndexSet implements IndexSet<JumboIndexSet> {
 	}
 
 	@Override
-	public boolean addAll(JumboIndexSet set) {
+	public boolean addAll(IndexSet indexSet) {
+		JumboIndexSet set = (JumboIndexSet)indexSet;
 		checkJumboArgument(set);
 		boolean changed = false;
 		
@@ -107,7 +109,8 @@ class JumboIndexSet implements IndexSet<JumboIndexSet> {
 	}
 
 	@Override
-	public boolean retainAll(JumboIndexSet set) {
+	public boolean retainAll(IndexSet indexSet) {
+		JumboIndexSet set = (JumboIndexSet)indexSet;
 		checkJumboArgument(set);
 		boolean changed = false;
 		
@@ -121,7 +124,8 @@ class JumboIndexSet implements IndexSet<JumboIndexSet> {
 	}
 
 	@Override
-	public boolean removeAll(JumboIndexSet set) {
+	public boolean removeAll(IndexSet indexSet) {
+		JumboIndexSet set = (JumboIndexSet)indexSet;
 		checkJumboArgument(set);
 		boolean changed = false;
 		

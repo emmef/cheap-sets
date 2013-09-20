@@ -137,10 +137,9 @@ public class IndexedSubSets {
 			return ((UniverseBasedSet<V>)universe).subSet();
 		}
 		
-		if (universe instanceof DefaultUniverseBasedSet) {
+		if (universe instanceof UniverseBasedSet) {
 			Stats.addIdempotentBased();
-			@SuppressWarnings("unchecked")
-			IndexedUniverse<V> castInstance = ((DefaultUniverseBasedSet<V,?>) universe).subSet();
+			IndexedUniverse<V> castInstance = ((UniverseBasedSet<V>) universe).subSet();
 			return castInstance;
 		}
 

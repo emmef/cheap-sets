@@ -34,4 +34,9 @@ public class SingleElementIndexedUniverse<T> implements IndexedUniverse<T> {
 	public int size() {
 		return 1;
 	}
+	
+	@Override
+	public String toString() {
+		return IndexedUniverses.toString(this);
+	}
 }

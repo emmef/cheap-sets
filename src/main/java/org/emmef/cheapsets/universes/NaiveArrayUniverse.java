@@ -51,4 +51,9 @@ public class NaiveArrayUniverse<T> implements IndexedUniverse<T> {
 	public int size() {
 		return universe.length;
 	}
+	
+	@Override
+	public String toString() {
+		return IndexedUniverses.toString(this);
+	}
 }

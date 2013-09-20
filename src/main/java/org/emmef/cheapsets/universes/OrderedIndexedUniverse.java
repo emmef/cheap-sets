@@ -43,6 +43,11 @@ public final class OrderedIndexedUniverse<T extends Comparable<T>> implements In
 	public int size() {
 		return universe.length;
 	}
+	
+	@Override
+	public String toString() {
+		return IndexedUniverses.toString(this);
+	}
 
 	@Override
 	public T elementAt(int index) {

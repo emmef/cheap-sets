@@ -1,6 +1,6 @@
 package org.emmef.cheapsets;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Iterator;
 import java.util.List;
@@ -47,7 +47,7 @@ public final class TestCheapSetGenerator implements TestSetGenerator<String>, Te
 
 	@Override
 	public Set<String> create(Object... elements) {
-		UniverseBasedSet<String> created = UniverseBasedSet.create(indexType.create(UNIVERSE));
+		UniverseBasedSet<String> created = new UniverseBasedSet<String>(indexType.create(UNIVERSE));
 		
 		for (Object element : elements) {
 			created.add((String)element);

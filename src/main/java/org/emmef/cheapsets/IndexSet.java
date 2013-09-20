@@ -15,7 +15,7 @@ import java.util.Set;
  * 
  * @documented 2013-07-26
  */
-interface IndexSet<T extends IndexSet<?>> extends Cloneable {
+interface IndexSet extends Cloneable {
 	/**
 	 * Returns the number of elements that are currently present in the index.
 	 * <p>
@@ -29,9 +29,13 @@ interface IndexSet<T extends IndexSet<?>> extends Cloneable {
 	
 	/**
 	 * Returns whether the set is empty.
-	 *
+	 * <p>
+	 * This can also be implemented as {@link #count()} == 0, but checking
+	 * for empty is generally more efficient than getting the actual number 
+	 * of elements present.
+	 * 
 	 * @return {@code true} if no elements are present, false otherwise.
-	 * @documented 2013-07-26
+	 * @documented 2013-09-20
 	 */
 	boolean isEmpty();
 	
@@ -75,7 +79,7 @@ interface IndexSet<T extends IndexSet<?>> extends Cloneable {
 	 * 
 	 * @documented 2013-07-26
 	 */
-	boolean containsAll(T set);
+	boolean containsAll(IndexSet set);
 	
 	/**
 	 * Set all elements that are present in the provided set, present in this set.
@@ -84,7 +88,7 @@ interface IndexSet<T extends IndexSet<?>> extends Cloneable {
 	 * @return {@code true} if this {@link IndexSet} changed as a result.
 	 * @documented 2013-07-26
 	 */
-	boolean addAll(T set);
+	boolean addAll(IndexSet set);
 	
 	/**
 	 * Keep only elements that are present in the provided set, present in this set.
@@ -93,7 +97,7 @@ interface IndexSet<T extends IndexSet<?>> extends Cloneable {
 	 * @return {@code true} if this {@link IndexSet} changed as a result.
 	 * @documented 2013-07-26
 	 */
-	boolean retainAll(T set);
+	boolean retainAll(IndexSet set);
 	
 	/**
 	 * Set all elements that are present in the provided set, NOT present in this set.
@@ -102,7 +106,7 @@ interface IndexSet<T extends IndexSet<?>> extends Cloneable {
 	 * @return {@code true} if this {@link IndexSet} changed as a result.
 	 * @documented 2013-07-26
 	 */
-	boolean removeAll(T set);
+	boolean removeAll(IndexSet set);
 	
 	/**
 	 * Sets all elements to NOT present.
@@ -117,7 +121,7 @@ interface IndexSet<T extends IndexSet<?>> extends Cloneable {
 	 * @return a {@code non-null} {@link IndexSet}
 	 * @documented 2013-07-26
 	 */
-	T cloneEmpty();
+	IndexSet cloneEmpty();
 	
 	/**
 	 * Create a new index set that has the same size as this 
@@ -126,5 +130,27 @@ interface IndexSet<T extends IndexSet<?>> extends Cloneable {
 	 * @return a {@code non-null} {@link IndexSet}
 	 * @documented 2013-07-26
 	 */
-	T clone();
+	IndexSet clone();
+	
+	class Build {
+		public static IndexSet emptyFor(IndexedUniverse<?> universe) {
+			int bounday = universe.indexBoundary();
+			if (bounday <= 32) {
+				return new MiniIndexSet();
+			}
+			if (bounday  <= 64) {
+				return new SmallIndexSet();
+			}
+			
+			return new JumboIndexSet(bounday);
+		}
+		
+		public static IndexSet clone(IndexSet set) {
+			return set.clone();
+		}
+		
+		public static IndexSet cloneEmpty(IndexSet set) {
+			return set.cloneEmpty();
+		}
+	}
 }

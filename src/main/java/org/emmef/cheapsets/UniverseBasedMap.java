@@ -97,12 +97,10 @@ public class UniverseBasedMap<K, V> implements Map<K, V> {
 	}
 
 	/**
-	 * Map the key to the specified value if the key is backed by 
-	 * the used subset ({@link IndexedUniverse}).
+	 * {@inheritDoc}
 	 * 
-	 * @see Map
-	 * @throws NullPointerException if either key or value are {@code null}
-	 * @throws IllegalArgumentException if key is not contained in the subset
+	 * @throws ElementNotInUniverseException if the key is not supported 
+	 *     by the {@link IndexedUniverse} that backs this set.
 	 */
 	@Override
 	public V put(K key, V value) {
@@ -118,7 +116,7 @@ public class UniverseBasedMap<K, V> implements Map<K, V> {
 			V existing = setAt(indexOf, value);
 			return existing;
 		}
-		throw new IllegalArgumentException(getClass().getSimpleName() + ": key not backed by subset that this maps key values are limited to: " + key);
+		throw new ElementNotInUniverseException(getClass().getSimpleName() + ": key not backed by subset that this maps key values are limited to: " + key);
 	}
 
 	@Override
@@ -136,6 +134,12 @@ public class UniverseBasedMap<K, V> implements Map<K, V> {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @throws ElementNotInUniverseException if some of the keys are not supported 
+	 *     by the {@link IndexedUniverse} that backs this set.
+	 */
 	@Override
 	public void putAll(Map<? extends K, ? extends V> m) {
 		if (m instanceof UniverseBasedMap && ((UniverseBasedMap<? extends K, ? extends V>)m).subset == subset) {

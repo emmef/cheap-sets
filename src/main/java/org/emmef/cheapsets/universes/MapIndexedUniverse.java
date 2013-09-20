@@ -77,6 +77,11 @@ public class MapIndexedUniverse<T> implements IndexedUniverse<T> {
 		return elementToIndex.size();
 	}
 	
+	@Override
+	public String toString() {
+		return IndexedUniverses.toString(this);
+	}
+	
 	private static <T> Object[] createPopulation(Map<T, Integer> elementToIndex) {
 		Object result[] = new Object[elementToIndex.size()];
 		

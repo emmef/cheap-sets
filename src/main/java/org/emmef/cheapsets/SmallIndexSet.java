@@ -6,7 +6,7 @@ package org.emmef.cheapsets;
  * 
  * @documented 2013-07-26
  */
-class SmallIndexSet implements IndexSet<SmallIndexSet> {
+class SmallIndexSet implements IndexSet {
 	private long present;
 
 	private SmallIndexSet(long present) {
@@ -47,26 +47,30 @@ class SmallIndexSet implements IndexSet<SmallIndexSet> {
 	}
 
 	@Override
-	public boolean containsAll(SmallIndexSet set) {
+	public boolean containsAll(IndexSet indexSet) {
+		SmallIndexSet set = (SmallIndexSet)indexSet;
 		return (set.present & present) == set.present;
 	}
 
 	@Override
-	public boolean addAll(SmallIndexSet set) {
+	public boolean addAll(IndexSet indexSet) {
+		SmallIndexSet set = (SmallIndexSet)indexSet;
 		long old = present;
 		present |= set.present;
 		return old != present;
 	}
 
 	@Override
-	public boolean retainAll(SmallIndexSet set) {
+	public boolean retainAll(IndexSet indexSet) {
+		SmallIndexSet set = (SmallIndexSet)indexSet;
 		long old = present;
 		present &= set.present;
 		return old != present;
 	}
 
 	@Override
-	public boolean removeAll(SmallIndexSet set) {
+	public boolean removeAll(IndexSet indexSet) {
+		SmallIndexSet set = (SmallIndexSet)indexSet;
 		long old = present;
 		present &= -1L ^ set.present;
 		return old != present;

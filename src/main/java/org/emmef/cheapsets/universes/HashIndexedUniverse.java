@@ -55,6 +55,11 @@ public final class HashIndexedUniverse<T> implements IndexedUniverse<T> {
 	public int size() {
 		return elementCount;
 	}
+	
+	@Override
+	public String toString() {
+		return IndexedUniverses.toString(this);
+	}
 
 	/**
 	 * Creates a hash-based {@link IndexedUniverse} that contains all elements
