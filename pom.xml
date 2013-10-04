@@ -45,11 +45,5 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>org.truth0</groupId>
-			<artifactId>truth</artifactId>
-			<version>0.10</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 </project>
