@@ -13,12 +13,15 @@ import com.google.common.base.Objects;
  * @see UniverseBasedMap
  */
 final class UniverseBasedMapEntry<K, V> implements Entry<K, V> {
+	private V value;
 	private final int index;
 	private final UniverseBasedMap<K, V> map;
 
 	UniverseBasedMapEntry(UniverseBasedMap<K, V> map, int index) {
 		this.map = map;
 		this.index = index;
+		
+		this.value = (V) map.getAt(index);
 	}
 
 	@Override
@@ -28,12 +31,14 @@ final class UniverseBasedMapEntry<K, V> implements Entry<K, V> {
 
 	@Override
 	public V getValue() {
-		return (V) map.getAt(index);
+		return value;
 	}
 
 	@Override
 	public V setValue(V value) {
-		return map.setAt(index, value);
+		V previousValue = map.setAt(index, value);
+		this.value = value;
+		return previousValue;
 	}
 	
 	/**
@@ -44,7 +49,7 @@ final class UniverseBasedMapEntry<K, V> implements Entry<K, V> {
 		Object key = getKey(); 
 		Object value = getValue();
 		
-		return (key != null ? key.hashCode() : 0) ^ (value != null ? value.hashCode() : 0); 
+		return (key != null ? key.hashCode() : 0) ^ (value != null ? value.hashCode() : 0);
 	};
 	
 	/**
